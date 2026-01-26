@@ -8,6 +8,9 @@ todos:
   - id: create-theme-system
     content: Build theme system that converts shadcn/ui CSS variables to ECharts themes with dark/light mode support
     status: completed
+  - id: enhance-theme-development
+    content: Enhance theme system with comprehensive chart type support, improved color conversion, and better theme registration
+    status: completed
   - id: build-core-components
     content: Create base Chart component and React wrapper with ECharts integration
     status: pending
@@ -96,33 +99,43 @@ shadcn-echarts/
 - ✅ Implement automatic dark mode detection
 - ✅ Add theme change watching functionality
 
-### Phase 2: Theme Development
+### Phase 2: Theme Development ✅ COMPLETED
 
-**2.1 shadcn/ui Theme Mapping**
+**2.1 shadcn/ui Theme Mapping** ✅
 
-- Extract color palette from shadcn/ui CSS variables:
+- ✅ Extract color palette from shadcn/ui CSS variables:
   - `--chart-1` through `--chart-5` for series colors
   - `--background`, `--foreground` for chart background/text
   - `--muted`, `--muted-foreground` for secondary elements
   - `--border` for grid lines and borders
   - `--primary`, `--primary-foreground` for emphasis
-- Create theme JSON objects for both light and dark modes
+- ✅ Create theme JSON objects for both light and dark modes
+- ✅ Enhanced color extraction with support for hex, rgb/rgba, and oklch formats
 - Reference: [shadcn/ui theming.md lines 93-163](docs/shadcn-ui/get-started/theming.md)
 
-**2.2 ECharts Theme Registration**
+**2.2 ECharts Theme Registration** ✅
 
-- Create theme registration system that:
+- ✅ Create theme registration system that:
   - Reads CSS variables from DOM (or accepts theme object)
-  - Converts oklch colors to hex/rgb for ECharts
+  - Converts oklch colors to hex/rgb for ECharts using browser APIs when available
   - Registers themes with `echarts.registerTheme()`
   - Supports dynamic theme switching via `chart.setTheme()`
+- ✅ Improved dark mode detection with element parameter support
+- ✅ Enhanced `watchThemeChanges()` with proper cleanup and disposal checks
+- ✅ Added `registerThemeFromColors()` for SSR/custom themes
+- ✅ Added `registerTheme()` for direct theme object registration
 - Reference: [ECharts theme registration](docs/echarts/concepts/style.md#theme), [ECharts 6 dynamic switching](docs/echarts/basics/what's -new/echarts-6-features.md)
 
-**2.3 Theme Builder Integration**
+**2.3 Theme Builder Integration** ✅
 
-- Research and potentially use [echarts-theme-builder](https://github.com/apache/echarts-theme-builder) for theme generation
-- Create automated theme generation from shadcn/ui color tokens
-- Generate theme files for distribution
+- ✅ Enhanced oklch to hex conversion with browser `getComputedStyle()` API fallback
+- ✅ Comprehensive theme builder supporting all ECharts chart types:
+  - Line, Bar, Pie, Scatter, Radar, Boxplot, Parallel, Sankey, Funnel, Gauge, Candlestick, Graph, Map/Geo
+- ✅ Component styling for toolbox, timeline, visualMap, dataZoom, markPoint, markLine, markArea
+- ✅ Axis styling for categoryAxis, valueAxis, logAxis, timeAxis
+- ✅ Improved tooltip contrast for dark/light modes
+- ✅ All type checks and linting pass
+- Reference: [echarts-theme-builder](https://github.com/apache/echarts-theme-builder)
 
 ### Phase 3: React Components
 
