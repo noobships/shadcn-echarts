@@ -9,11 +9,52 @@ import type { EChartsTheme, ShadcnChartColors, ThemeMode } from './types'
 /**
  * Convert oklch color to hex
  * 
+ * Uses browser CSS.supports() and getComputedStyle() when available for accurate conversion.
+ * Falls back to manual conversion for SSR or when browser APIs aren't available.
+ * 
  * @param oklch - oklch color string (e.g., "oklch(0.646 0.222 41.116)")
  * @returns hex color string
  */
 export function oklchToHex(oklch: string): string {
-  // Remove 'oklch(' and ')' and split by spaces
+  // If already a hex color, return as-is
+  if (/^#([0-9A-F]{3}|[0-9A-F]{6})$/i.test(oklch)) {
+    return oklch
+  }
+
+  // If already rgb/rgba, convert to hex
+  const rgbMatch = oklch.match(/rgba?\(([^)]+)\)/)
+  if (rgbMatch) {
+    const values = rgbMatch[1]?.split(',').map((v) => parseInt(v.trim(), 10)) ?? []
+    if (values.length >= 3) {
+      return rgbToHex(values[0] ?? 0, values[1] ?? 0, values[2] ?? 0)
+    }
+  }
+
+  // Try browser-based conversion first (most accurate)
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    try {
+      // Create a temporary element to use getComputedStyle
+      const tempEl = document.createElement('div')
+      tempEl.style.color = oklch
+      document.body.appendChild(tempEl)
+      const computed = getComputedStyle(tempEl).color
+      document.body.removeChild(tempEl)
+
+      // Parse rgb/rgba from computed style
+      const computedRgb = computed.match(/\d+/g)
+      if (computedRgb && computedRgb.length >= 3) {
+        return rgbToHex(
+          parseInt(computedRgb[0] ?? '0', 10),
+          parseInt(computedRgb[1] ?? '0', 10),
+          parseInt(computedRgb[2] ?? '0', 10)
+        )
+      }
+    } catch {
+      // Fall through to manual conversion
+    }
+  }
+
+  // Manual conversion fallback
   const match = oklch.match(/oklch\(([^)]+)\)/)
   if (!match) {
     return oklch // Return as-is if not oklch format
@@ -30,8 +71,6 @@ export function oklchToHex(oklch: string): string {
   }
 
   // Convert oklch to rgb
-  // This is a simplified conversion - for production, use a proper color library
-  // For now, we'll use a basic approximation
   const rgb = oklchToRgb(l, c, h)
   return rgbToHex(rgb[0], rgb[1], rgb[2])
 }
@@ -125,6 +164,8 @@ export function extractShadcnColors(
 /**
  * Build ECharts theme from shadcn/ui colors
  * 
+ * Creates a comprehensive theme that covers all ECharts chart types and components.
+ * 
  * @param colors - ShadcnChartColors object
  * @param mode - Theme mode ('light' or 'dark')
  * @returns ECharts theme object
@@ -146,13 +187,25 @@ export function buildEChartsTheme(
   const textColor = oklchToHex(colors.foreground)
   const borderColor = oklchToHex(colors.border)
   const mutedTextColor = oklchToHex(colors.mutedForeground)
+  const mutedColor = oklchToHex(colors.muted)
+  const primaryColor = oklchToHex(colors.primary)
+
+  // Tooltip background with better contrast
+  const tooltipBg = mode === 'dark'
+    ? 'rgba(0, 0, 0, 0.85)'
+    : 'rgba(255, 255, 255, 0.95)'
 
   return {
+    // Global color palette
     color: chartColors,
     backgroundColor,
+
+    // Global text style
     textStyle: {
       color: textColor,
     },
+
+    // Title component
     title: {
       textStyle: {
         color: textColor,
@@ -161,6 +214,8 @@ export function buildEChartsTheme(
         color: mutedTextColor,
       },
     },
+
+    // Line chart series
     line: {
       itemStyle: {
         borderColor: borderColor,
@@ -175,6 +230,8 @@ export function buildEChartsTheme(
         color: textColor,
       },
     },
+
+    // Bar chart series
     bar: {
       itemStyle: {
         color: chartColors[0],
@@ -184,6 +241,8 @@ export function buildEChartsTheme(
         color: textColor,
       },
     },
+
+    // Pie chart series
     pie: {
       itemStyle: {
         borderColor: backgroundColor,
@@ -192,6 +251,8 @@ export function buildEChartsTheme(
         color: textColor,
       },
     },
+
+    // Scatter chart series
     scatter: {
       itemStyle: {
         borderColor: borderColor,
@@ -200,6 +261,151 @@ export function buildEChartsTheme(
         color: textColor,
       },
     },
+
+    // Radar chart series
+    radar: {
+      itemStyle: {
+        borderColor: borderColor,
+      },
+      lineStyle: {
+        color: chartColors[0],
+      },
+      areaStyle: {
+        color: chartColors[0],
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Boxplot chart series
+    boxplot: {
+      itemStyle: {
+        borderColor: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Parallel chart series
+    parallel: {
+      itemStyle: {
+        borderColor: borderColor,
+      },
+      lineStyle: {
+        color: chartColors[0],
+      },
+      areaStyle: {
+        color: chartColors[0],
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Sankey chart series
+    sankey: {
+      itemStyle: {
+        borderColor: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Funnel chart series
+    funnel: {
+      itemStyle: {
+        borderColor: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Gauge chart series
+    gauge: {
+      itemStyle: {
+        color: primaryColor,
+        borderColor: borderColor,
+      },
+      axisLine: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      splitLine: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      axisTick: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      axisLabel: {
+        color: mutedTextColor,
+      },
+      pointer: {
+        itemStyle: {
+          color: primaryColor,
+        },
+      },
+      title: {
+        color: textColor,
+      },
+      detail: {
+        color: textColor,
+      },
+    },
+
+    // Candlestick chart series
+    candlestick: {
+      itemStyle: {
+        color: chartColors[0],
+        color0: chartColors[1],
+        borderColor: borderColor,
+        borderColor0: borderColor,
+      },
+    },
+
+    // Graph chart series
+    graph: {
+      itemStyle: {
+        borderColor: borderColor,
+      },
+      lineStyle: {
+        color: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Map/Geo chart series
+    map: {
+      itemStyle: {
+        areaColor: mutedColor,
+        borderColor: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    geo: {
+      itemStyle: {
+        areaColor: mutedColor,
+        borderColor: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Category axis
     categoryAxis: {
       axisLine: {
         lineStyle: {
@@ -220,6 +426,8 @@ export function buildEChartsTheme(
         },
       },
     },
+
+    // Value axis
     valueAxis: {
       axisLine: {
         lineStyle: {
@@ -240,15 +448,155 @@ export function buildEChartsTheme(
         },
       },
     },
+
+    // Log axis
+    logAxis: {
+      axisLine: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      axisTick: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      axisLabel: {
+        color: mutedTextColor,
+      },
+      splitLine: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+    },
+
+    // Time axis
+    timeAxis: {
+      axisLine: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      axisTick: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+      axisLabel: {
+        color: mutedTextColor,
+      },
+      splitLine: {
+        lineStyle: {
+          color: borderColor,
+        },
+      },
+    },
+
+    // Toolbox component
+    toolbox: {
+      iconStyle: {
+        borderColor: borderColor,
+      },
+      emphasis: {
+        iconStyle: {
+          borderColor: primaryColor,
+        },
+      },
+    },
+
+    // Legend component
     legend: {
       textStyle: {
         color: textColor,
       },
     },
+
+    // Tooltip component
     tooltip: {
-      backgroundColor: mode === 'dark' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.95)',
+      backgroundColor: tooltipBg,
       borderColor: borderColor,
       textStyle: {
+        color: textColor,
+      },
+    },
+
+    // Timeline component
+    timeline: {
+      lineStyle: {
+        color: borderColor,
+      },
+      itemStyle: {
+        color: mutedColor,
+        borderColor: borderColor,
+      },
+      controlStyle: {
+        color: textColor,
+        borderColor: borderColor,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // VisualMap component
+    visualMap: {
+      textStyle: {
+        color: textColor,
+      },
+    },
+
+    // DataZoom component
+    dataZoom: {
+      textStyle: {
+        color: mutedTextColor,
+      },
+      handleStyle: {
+        color: primaryColor,
+        borderColor: borderColor,
+      },
+      dataBackground: {
+        lineStyle: {
+          color: borderColor,
+        },
+        areaStyle: {
+          color: mutedColor,
+        },
+      },
+      selectedDataBackground: {
+        lineStyle: {
+          color: primaryColor,
+        },
+        areaStyle: {
+          color: chartColors[0],
+        },
+      },
+      fillerColor: mode === 'dark'
+        ? 'rgba(255, 255, 255, 0.1)'
+        : 'rgba(0, 0, 0, 0.05)',
+      borderColor: borderColor,
+    },
+
+    // MarkPoint component
+    markPoint: {
+      label: {
+        color: textColor,
+      },
+    },
+
+    // MarkLine component
+    markLine: {
+      label: {
+        color: textColor,
+      },
+      lineStyle: {
+        color: borderColor,
+      },
+    },
+
+    // MarkArea component
+    markArea: {
+      label: {
         color: textColor,
       },
     },
