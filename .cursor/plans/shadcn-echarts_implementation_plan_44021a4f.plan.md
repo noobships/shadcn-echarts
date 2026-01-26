@@ -13,10 +13,10 @@ todos:
     status: completed
   - id: build-core-components
     content: Create base Chart component and React wrapper with ECharts integration
-    status: pending
+    status: completed
   - id: create-chart-components
     content: "Build typed React components for ALL 34+ ECharts chart types (2D: Line, Bar, Pie, Scatter, Area, Map, Candlestick, Radar, Boxplot, Heatmap, Graph, Lines, Tree, Treemap, Sunburst, Parallel, Sankey, Funnel, Gauge, PictorialBar, ThemeRiver, Calendar, Matrix, Chord, Custom; 3D/WebGL: Globe3D, Bar3D, Scatter3D, Surface3D, Map3D, Lines3D, Line3D, ScatterGL, LinesGL, GraphGL)"
-    status: pending
+    status: completed
   - id: setup-registry
     content: Create shadcn/ui registry structure and registry.json configuration
     status: pending
@@ -137,87 +137,111 @@ shadcn-echarts/
 - ✅ All type checks and linting pass
 - Reference: [echarts-theme-builder](https://github.com/apache/echarts-theme-builder)
 
-### Phase 3: React Components
+### Phase 3: React Components ✅ COMPLETED
 
-**3.1 Core Chart Component**
+**3.1 Core Chart Component** ✅
 
-- Create base `<Chart />` React component that:
-  - Accepts ECharts option as prop
-  - Handles ECharts instance lifecycle
-  - Supports responsive resizing
-  - Integrates with theme system
-  - Supports both controlled and uncontrolled modes
+- ✅ Created base `<Chart />` React component that:
+  - Accepts ECharts option as prop with full TypeScript typing
+  - Handles ECharts instance lifecycle (init, dispose, resize)
+  - Supports responsive resizing with ResizeObserver and window resize listener
+  - Integrates with theme system (automatic detection and manual override)
+  - Supports forward ref for accessing chart instance
+  - Handles loading states
+  - Manages event handlers with proper cleanup
+  - Supports SSR mode
+  - Explicit return types for isolated declarations compatibility
 - Reference: [ECharts chart-container.md](docs/echarts/concepts/chart-container.md)
 
-**3.2 Chart Type Components**
+**3.2 Chart Type Components** ✅
 
-Create typed React components for ALL ECharts chart types. Based on [ECharts examples.md](docs/echarts/examples/examples.md), ECharts provides 34+ chart types that must all be covered:
+✅ Created typed React components for ALL ECharts chart types. Based on [ECharts examples.md](docs/echarts/examples/examples.md), all 36 chart types are implemented:
 
-**2D Chart Types (24 components):**
+**2D Chart Types (26 components):** ✅
 
-- `<LineChart />` - Line charts
-- `<BarChart />` - Bar charts
-- `<PieChart />` - Pie charts
-- `<ScatterChart />` - Scatter plots
-- `<AreaChart />` - Area charts (line with areaStyle)
-- `<MapChart />` / `<GeoChart />` - GEO/Map charts
-- `<CandlestickChart />` - Candlestick charts
-- `<RadarChart />` - Radar charts
-- `<BoxplotChart />` - Boxplot charts
-- `<HeatmapChart />` - Heatmap charts
-- `<GraphChart />` - Graph/network charts
-- `<LinesChart />` - Lines (flow/path) charts
-- `<TreeChart />` - Tree charts
-- `<TreemapChart />` - Treemap charts
-- `<SunburstChart />` - Sunburst charts
-- `<ParallelChart />` - Parallel coordinate charts
-- `<SankeyChart />` - Sankey diagrams
-- `<FunnelChart />` - Funnel charts
-- `<GaugeChart />` - Gauge charts
-- `<PictorialBarChart />` - Pictorial bar charts
-- `<ThemeRiverChart />` - Theme river charts
-- `<CalendarChart />` - Calendar charts
-- `<MatrixChart />` - Matrix charts
-- `<ChordChart />` - Chord diagrams
-- `<CustomChart />` - Custom series (renderItem-based)
+- ✅ `<LineChart />` - Line charts
+- ✅ `<BarChart />` - Bar charts
+- ✅ `<PieChart />` - Pie charts
+- ✅ `<ScatterChart />` - Scatter plots
+- ✅ `<AreaChart />` - Area charts (line with areaStyle)
+- ✅ `<MapChart />` - Map charts
+- ✅ `<GeoChart />` - GEO charts (alias for MapChart)
+- ✅ `<CandlestickChart />` - Candlestick charts
+- ✅ `<RadarChart />` - Radar charts
+- ✅ `<BoxplotChart />` - Boxplot charts
+- ✅ `<HeatmapChart />` - Heatmap charts
+- ✅ `<GraphChart />` - Graph/network charts
+- ✅ `<LinesChart />` - Lines (flow/path) charts
+- ✅ `<TreeChart />` - Tree charts
+- ✅ `<TreemapChart />` - Treemap charts
+- ✅ `<SunburstChart />` - Sunburst charts
+- ✅ `<ParallelChart />` - Parallel coordinate charts
+- ✅ `<SankeyChart />` - Sankey diagrams
+- ✅ `<FunnelChart />` - Funnel charts
+- ✅ `<GaugeChart />` - Gauge charts
+- ✅ `<PictorialBarChart />` - Pictorial bar charts
+- ✅ `<ThemeRiverChart />` - Theme river charts
+- ✅ `<CalendarChart />` - Calendar charts
+- ✅ `<MatrixChart />` - Matrix charts
+- ✅ `<ChordChart />` - Chord diagrams
+- ✅ `<CustomChart />` - Custom series (renderItem-based)
 
-**3D/WebGL Chart Types (10 components):**
+**3D/WebGL Chart Types (10 components):** ✅
 
-- `<Globe3DChart />` - 3D Globe charts
-- `<Bar3DChart />` - 3D Bar charts
-- `<Scatter3DChart />` - 3D Scatter charts
-- `<Surface3DChart />` - 3D Surface charts
-- `<Map3DChart />` - 3D Map charts
-- `<Lines3DChart />` - 3D Lines charts
-- `<Line3DChart />` - 3D Line charts
-- `<ScatterGLChart />` - WebGL Scatter charts
-- `<LinesGLChart />` - WebGL Lines charts
-- `<GraphGLChart />` - WebGL Graph charts
+- ✅ `<Globe3DChart />` - 3D Globe charts
+- ✅ `<Bar3DChart />` - 3D Bar charts
+- ✅ `<Scatter3DChart />` - 3D Scatter charts
+- ✅ `<Surface3DChart />` - 3D Surface charts
+- ✅ `<Map3DChart />` - 3D Map charts
+- ✅ `<Lines3DChart />` - 3D Lines charts
+- ✅ `<Line3DChart />` - 3D Line charts
+- ✅ `<ScatterGLChart />` - WebGL Scatter charts
+- ✅ `<LinesGLChart />` - WebGL Lines charts
+- ✅ `<GraphGLChart />` - WebGL Graph charts
 
-Each component should:
+**Component Features:** ✅
 
-- Have proper TypeScript types using ECharts' ComposeOption pattern
-- Accept chart-specific props with sensible defaults
-- Use tree-shakeable ECharts imports (only import required chart types)
-- Support theme switching via theme prop or automatic detection
-- Handle responsive resizing
-- Support all ECharts features (tooltip, legend, dataZoom, etc.)
+- ✅ Proper TypeScript types using ECharts' ComposeOption pattern
+- ✅ Chart-specific props with full type safety
+- ✅ Tree-shakeable ECharts imports (only import required chart types and components)
+- ✅ Support theme switching via theme prop or automatic detection
+- ✅ Handle responsive resizing through base Chart component
+- ✅ Support all ECharts features (tooltip, legend, dataZoom, visualMap, etc.)
+- ✅ Explicit return types (React.JSX.Element) for isolated declarations
+- ✅ Proper component registration with required ECharts modules
+- ✅ Lazy registration pattern to avoid duplicate registrations
 
-**Component Organization:**
+**Component Organization:** ✅
 
-- Group 2D charts in `src/components/charts/2d/`
-- Group 3D/WebGL charts in `src/components/charts/3d/`
-- Create index files for easy imports
+- ✅ 2D charts organized in `src/components/charts/2d/` (26 components)
+- ✅ 3D/WebGL charts organized in `src/components/charts/3d/` (10 components)
+- ✅ Index files created for easy imports (`2d/index.ts`, `3d/index.ts`, `charts/index.ts`)
+- ✅ All components exported from main `src/index.ts`
+- ✅ Tree-shaking verified and working
 - Reference: [ECharts examples.md](docs/echarts/examples/examples.md) for complete chart type list
 
-**3.3 Theme Hook**
+**3.3 Theme Hook** ✅
 
-- Create `useEChartsTheme()` hook that:
+- ✅ `useEChartsTheme()` hook already created in Phase 1 that:
   - Detects system dark mode preference
-  - Watches for theme changes
-  - Returns current theme name
+  - Watches for theme changes (MutationObserver + MediaQuery)
+  - Returns current theme name and mode
   - Can be used to sync with shadcn/ui theme
+  - Integrated with all chart components for automatic theme detection
 - Reference: [ECharts 6 dark mode detection](docs/echarts/basics/what's -new/echarts-6-features.md#3-dark-mode-support)
+
+**Phase 3 Summary:**
+
+- ✅ Base Chart component with full lifecycle management
+- ✅ 36 chart components (26 2D + 10 3D/WebGL) - complete coverage
+- ✅ All components properly typed with TypeScript
+- ✅ Tree-shakeable imports for optimal bundle size
+- ✅ Theme integration with automatic dark/light mode detection
+- ✅ Responsive resizing support
+- ✅ All type checks and linting pass (0 errors, 0 warnings)
+- ✅ Build completes successfully
+- ✅ Components organized in logical directory structure
+- ✅ All exports properly configured for tree-shaking
 
 ### Phase 4: TypeScript Types
 

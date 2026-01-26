@@ -181,6 +181,25 @@ export type ChordChartOption = ComposeOption<
 >
 
 /**
+ * 3D/WebGL Chart Option Types
+ * 
+ * Note: 3D and WebGL charts may require additional setup (e.g., echarts-gl).
+ * These types use EChartsCoreOption as a base for flexibility.
+ */
+import type { EChartsCoreOption } from 'echarts/core'
+
+export type Globe3DChartOption = EChartsCoreOption
+export type Bar3DChartOption = EChartsCoreOption
+export type Scatter3DChartOption = EChartsCoreOption
+export type Surface3DChartOption = EChartsCoreOption
+export type Map3DChartOption = EChartsCoreOption
+export type Lines3DChartOption = EChartsCoreOption
+export type Line3DChartOption = EChartsCoreOption
+export type ScatterGLChartOption = EChartsCoreOption
+export type LinesGLChartOption = EChartsCoreOption
+export type GraphGLChartOption = EChartsCoreOption
+
+/**
  * Chart component props base interface
  */
 export interface BaseChartProps {

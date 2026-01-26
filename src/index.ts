@@ -16,5 +16,5 @@ export * from './themes'
 // Hook exports
 export * from './hooks'
 
-// Component exports will be added in Phase 3
-// export * from './components'
+// Component exports
+export * from './components'
