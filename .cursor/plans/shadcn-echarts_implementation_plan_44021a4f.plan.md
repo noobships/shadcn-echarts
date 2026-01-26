@@ -243,22 +243,29 @@ shadcn-echarts/
 - ✅ Components organized in logical directory structure
 - ✅ All exports properly configured for tree-shaking
 
-### Phase 4: TypeScript Types
+### Phase 4: TypeScript Types ✅ COMPLETED
 
-**4.1 Type Definitions**
+**4.1 Type Definitions** ✅
 
-- Create comprehensive TypeScript types:
-  - Chart component props
-  - Theme configuration types
-  - Utility function types
-- Leverage ECharts' built-in types where possible
+- ✅ Create comprehensive TypeScript types:
+  - ✅ Chart component props (BaseChartProps with proper typing)
+  - ✅ Theme configuration types (already in themes/types.ts)
+  - ✅ Utility function types (LoadingOption, EChartsEventHandler)
+- ✅ Leverage ECharts' built-in types where possible
+- ✅ Added MatrixChartOption and GeoChartOption types
+- ✅ Enhanced BaseChartProps with proper types (CSSProperties, LoadingOption, EChartsEventHandler)
+- ✅ Added union types for type narrowing (ChartOption2D, ChartOption3D, ChartOption)
 - Reference: [ECharts TypeScript types](docs/echarts/basics/import-echarts.md#creating-an-option-type-in-typescript)
 
-**4.2 Type Exports**
+**4.2 Type Exports** ✅
 
-- Export all types from main package entry
-- Ensure types work with tree-shaking
-- Provide type helpers for custom chart options
+- ✅ Export all types from main package entry (via src/index.ts)
+- ✅ Ensure types work with tree-shaking (type-only exports)
+- ✅ Provide type helpers for custom chart options (union types)
+- ✅ Updated MatrixChart component to use MatrixChartOption
+- ✅ All types properly documented with JSDoc comments
+- ✅ TypeScript compilation passes with 0 errors
+- ✅ oxlint passes with 0 warnings and 0 errors
 
 ### Phase 5: shadcn/ui Registry
 

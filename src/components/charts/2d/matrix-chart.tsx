@@ -17,7 +17,7 @@ import {
 import { LabelLayout, UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import { Chart, type ChartProps } from '../../chart'
-import type { HeatmapChartOption } from '../../../core/types'
+import type { MatrixChartOption } from '../../../core/types'
 
 let registered = false
 
@@ -38,7 +38,7 @@ function registerComponents() {
 }
 
 export interface MatrixChartProps extends Omit<ChartProps, 'option'> {
-  option: HeatmapChartOption
+  option: MatrixChartOption
 }
 
 export function MatrixChartComponent(props: MatrixChartProps): React.JSX.Element {

@@ -5,6 +5,7 @@
  */
 
 import type { ComposeOption } from 'echarts/core'
+import type { CSSProperties } from 'react'
 import type {
   // Series option types
   BarSeriesOption,
@@ -181,6 +182,24 @@ export type ChordChartOption = ComposeOption<
 >
 
 /**
+ * Matrix Chart Option
+ * 
+ * Matrix charts use heatmap series with calendar component for time-based visualization
+ */
+export type MatrixChartOption = ComposeOption<
+  | HeatmapSeriesOption
+  | CalendarComponentOption
+  | CommonComponentOptions
+>
+
+/**
+ * Geo Chart Option
+ * 
+ * Geo charts are an alias for Map charts with GeoComponent support
+ */
+export type GeoChartOption = MapChartOption
+
+/**
  * 3D/WebGL Chart Option Types
  * 
  * Note: 3D and WebGL charts may require additional setup (e.g., echarts-gl).
@@ -200,6 +219,29 @@ export type LinesGLChartOption = EChartsCoreOption
 export type GraphGLChartOption = EChartsCoreOption
 
 /**
+ * ECharts loading options
+ */
+export interface LoadingOption {
+  text?: string
+  color?: string
+  textColor?: string
+  maskColor?: string
+  zlevel?: number
+  fontSize?: number
+  showSpinner?: boolean
+  spinnerRadius?: number
+  lineWidth?: number
+  fontWeight?: string | number
+  fontStyle?: string
+  fontFamily?: string
+}
+
+/**
+ * ECharts event handler type
+ */
+export type EChartsEventHandler = (params: unknown) => void
+
+/**
  * Chart component props base interface
  */
 export interface BaseChartProps {
@@ -216,13 +258,13 @@ export interface BaseChartProps {
   /** Loading state */
   loading?: boolean
   /** Loading options */
-  loadingOption?: object
+  loadingOption?: LoadingOption
   /** Chart option (for advanced usage) */
-  option?: object
+  option?: EChartsCoreOption
   /** Event handlers */
-  onEvents?: Record<string, (params: unknown) => void>
+  onEvents?: Record<string, EChartsEventHandler>
   /** Chart style */
-  style?: Record<string, string | number> | { [key: string]: string | number }
+  style?: CSSProperties
   /** Chart className */
   className?: string
   /** Auto-resize */
@@ -242,3 +284,54 @@ export interface SSRRenderOptions {
   /** Whether to include animations */
   animation?: boolean
 }
+
+/**
+ * Union type of all 2D chart options
+ */
+export type ChartOption2D =
+  | BarChartOption
+  | LineChartOption
+  | PieChartOption
+  | ScatterChartOption
+  | AreaChartOption
+  | RadarChartOption
+  | MapChartOption
+  | GeoChartOption
+  | TreeChartOption
+  | TreemapChartOption
+  | GraphChartOption
+  | GaugeChartOption
+  | FunnelChartOption
+  | ParallelChartOption
+  | SankeyChartOption
+  | BoxplotChartOption
+  | CandlestickChartOption
+  | HeatmapChartOption
+  | MatrixChartOption
+  | LinesChartOption
+  | PictorialBarChartOption
+  | ThemeRiverChartOption
+  | SunburstChartOption
+  | CustomChartOption
+  | CalendarChartOption
+  | ChordChartOption
+
+/**
+ * Union type of all 3D/WebGL chart options
+ */
+export type ChartOption3D =
+  | Globe3DChartOption
+  | Bar3DChartOption
+  | Scatter3DChartOption
+  | Surface3DChartOption
+  | Map3DChartOption
+  | Lines3DChartOption
+  | Line3DChartOption
+  | ScatterGLChartOption
+  | LinesGLChartOption
+  | GraphGLChartOption
+
+/**
+ * Union type of all chart options (2D and 3D/WebGL)
+ */
+export type ChartOption = ChartOption2D | ChartOption3D | EChartsCoreOption
