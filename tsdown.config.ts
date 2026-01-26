@@ -1,16 +1,19 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/hooks/index.ts', 'src/themes/index.ts'],
+  entry: {
+    'index': 'src/index.ts',
+    'hooks/index': 'src/hooks/index.ts',
+    'themes/index': 'src/themes/index.ts',
+  },
   format: ['esm', 'cjs'],
   dts: true,
-  splitting: false,
   sourcemap: true,
   clean: true,
   treeshake: true,
   minify: false,
   platform: 'neutral',
-  target: 'es2022',
+  // @ts-expect-error - exports is valid in tsdown 0.3.1 but types may be outdated
   exports: {
     all: true,
   },

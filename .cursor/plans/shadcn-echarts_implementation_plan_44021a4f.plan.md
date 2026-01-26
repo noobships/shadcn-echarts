@@ -25,7 +25,7 @@ todos:
     status: completed
   - id: configure-build
     content: Set up tsdown config for multi-format output (ESM/CJS) and package.json exports
-    status: pending
+    status: completed
   - id: add-documentation
     content: Write comprehensive README, API docs, and usage examples
     status: pending
@@ -344,33 +344,52 @@ registry/
 - ✅ All registry files follow consistent pattern and best practices
 - ✅ Type safety ensured by using package-exported types
 
-### Phase 6: Build & Distribution
+### Phase 6: Build & Distribution ✅ COMPLETED
 
-**6.1 tsdown Configuration**
+**6.1 tsdown Configuration** ✅
 
-- Configure tsdown for:
-  - Multiple entry points (one per chart component)
-  - ESM and CJS output formats
-  - TypeScript declaration files
-  - Tree-shaking support
-  - CSS handling (if needed)
+- ✅ Configured tsdown with entry aliases for proper output structure:
+  - Entry points: `index`, `hooks/index`, `themes/index`
+  - Outputs correctly to `dist/index.js`, `dist/hooks/index.js`, `dist/themes/index.js`
+- ✅ ESM and CJS output formats configured
+- ✅ TypeScript declaration files enabled (`dts: true`)
+- ✅ Tree-shaking enabled (`treeshake: true`)
+- ✅ No CSS files needed (ECharts handles styling via themes)
+- ✅ Source maps enabled for debugging
+- ✅ External dependencies properly configured (react, react-dom, echarts)
 - Reference: [tsdown config options](docs/tsdown/options/)
 
-**6.2 Package Configuration**
+**6.2 Package Configuration** ✅
 
-- Set up package.json with:
-  - Proper `exports` field (auto-generated)
-  - Peer dependencies (react, echarts)
-  - TypeScript types entry
-  - Side effects configuration for tree-shaking
+- ✅ Package.json exports properly configured:
+  - Main entry: `./dist/index.js` (ESM) and `./dist/index.cjs` (CJS)
+  - Hooks entry: `./dist/hooks/index.js` and `./dist/hooks/index.cjs`
+  - Themes entry: `./dist/themes/index.js` and `./dist/themes/index.cjs`
+  - All with proper TypeScript type declarations
+- ✅ Peer dependencies configured: `react >=18.0.0`, `echarts >=6.0.0`
+- ✅ TypeScript types entry points configured
+- ✅ `sideEffects: false` for optimal tree-shaking
+- ✅ Files array includes `dist`, `registry`, and `README.md`
 - Reference: [tsdown package-exports.md](docs/tsdown/options/package-exports.md)
 
-**6.3 Build Scripts**
+**6.3 Build Scripts** ✅
 
-- `build`: Build package with tsdown
-- `registry:build`: Build registry JSON files
-- `dev`: Watch mode for development
+- ✅ `build`: Build package with tsdown
+- ✅ `dev`: Watch mode for development (`tsdown --watch`)
+- ✅ `type-check`: TypeScript type checking (`tsc --noEmit`)
+- ✅ `lint`: oxlint linting
+- ✅ `registry:build`: Build registry JSON files (`shadcn build`)
+- ✅ All scripts tested and working correctly
 - Reference: [tsdown watchmode.md](docs/tsdown/options/watchmode.md)
+
+**Verification:** ✅
+
+- ✅ TypeScript compilation: 0 errors
+- ✅ oxlint: 0 warnings, 0 errors
+- ✅ Build completes successfully
+- ✅ All output files in correct locations
+- ✅ TypeScript declarations generated correctly
+- ✅ Package exports match actual output files
 
 ### Phase 7: Verification & Testing
 
