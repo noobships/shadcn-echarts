@@ -1,0 +1,68 @@
+{
+  "name": "@shadcn/echarts",
+  "version": "0.1.0",
+  "description": "Apache ECharts charts styled to match shadcn/ui's design language with full dark/light mode support",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js",
+      "require": "./dist/hooks/index.cjs"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.js",
+      "require": "./dist/themes/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "registry",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "registry:build": "shadcn build"
+  },
+  "keywords": [
+    "echarts",
+    "shadcn",
+    "charts",
+    "react",
+    "typescript",
+    "data-visualization",
+    "dark-mode"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "echarts": ">=6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "echarts": "^6.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "oxlint": "^1.0.0",
+    "typescript": "^5.7.0",
+    "tsdown": "^0.3.0"
+  },
+  "dependencies": {},
+  "sideEffects": false
+}

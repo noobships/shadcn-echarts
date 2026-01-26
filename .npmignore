@@ -1,0 +1,19 @@
+# Source files
+src
+docs
+.agent
+.cursor
+agent-context
+
+# Config files
+tsconfig.json
+tsdown.config.ts
+.gitignore
+.npmignore
+
+# Development files
+*.md
+!README.md
+
+# Build artifacts
+*.tsbuildinfo
