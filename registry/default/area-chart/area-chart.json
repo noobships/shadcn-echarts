@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "area-chart",
+  "type": "registry:component",
+  "title": "Area Chart",
+  "description": "Area Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+  "dependencies": [
+    "@shadcn/echarts",
+    "echarts@^6.0.0",
+    "react@>=18.0.0"
+  ],
+  "files": [
+    {
+      "path": "registry/default/area-chart/area-chart.tsx",
+      "type": "registry:component"
+    }
+  ]
+}

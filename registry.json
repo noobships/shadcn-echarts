@@ -1,0 +1,619 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "shadcn-echarts",
+  "homepage": "https://github.com/shadcn/echarts",
+  "items": [
+    {
+      "name": "area-chart",
+      "type": "registry:component",
+      "title": "Area Chart",
+      "description": "Area Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/area-chart/area-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "bar-3d-chart",
+      "type": "registry:component",
+      "title": "Bar 3D Chart",
+      "description": "Bar 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/bar-3d-chart/bar-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart",
+      "type": "registry:component",
+      "title": "Bar Chart",
+      "description": "A bar chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/bar-chart/bar-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "boxplot-chart",
+      "type": "registry:component",
+      "title": "Boxplot Chart",
+      "description": "Boxplot Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/boxplot-chart/boxplot-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar-chart",
+      "type": "registry:component",
+      "title": "Calendar Chart",
+      "description": "Calendar Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/calendar-chart/calendar-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart",
+      "type": "registry:component",
+      "title": "Candlestick Chart",
+      "description": "Candlestick Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/candlestick-chart/candlestick-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chord-chart",
+      "type": "registry:component",
+      "title": "Chord Chart",
+      "description": "Chord Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/chord-chart/chord-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "custom-chart",
+      "type": "registry:component",
+      "title": "Custom Chart",
+      "description": "Custom Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/custom-chart/custom-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart",
+      "type": "registry:component",
+      "title": "Funnel Chart",
+      "description": "Funnel Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/funnel-chart/funnel-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart",
+      "type": "registry:component",
+      "title": "Gauge Chart",
+      "description": "Gauge Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/gauge-chart/gauge-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "geo-chart",
+      "type": "registry:component",
+      "title": "Geo Chart",
+      "description": "Geo Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/geo-chart/geo-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "globe-3d-chart",
+      "type": "registry:component",
+      "title": "Globe 3D Chart",
+      "description": "Globe 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/globe-3d-chart/globe-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "graph-chart",
+      "type": "registry:component",
+      "title": "Graph Chart",
+      "description": "Graph Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/graph-chart/graph-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "graph-gl-chart",
+      "type": "registry:component",
+      "title": "Graph GL Chart",
+      "description": "Graph GL Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/graph-gl-chart/graph-gl-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "heatmap-chart",
+      "type": "registry:component",
+      "title": "Heatmap Chart",
+      "description": "Heatmap Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/heatmap-chart/heatmap-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "line-3d-chart",
+      "type": "registry:component",
+      "title": "Line 3D Chart",
+      "description": "Line 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/line-3d-chart/line-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:component",
+      "title": "Line Chart",
+      "description": "A line chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/line-chart/line-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "lines-3d-chart",
+      "type": "registry:component",
+      "title": "Lines 3D Chart",
+      "description": "Lines 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/lines-3d-chart/lines-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "lines-chart",
+      "type": "registry:component",
+      "title": "Lines Chart",
+      "description": "Lines Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/lines-chart/lines-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "lines-gl-chart",
+      "type": "registry:component",
+      "title": "Lines GL Chart",
+      "description": "Lines GL Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/lines-gl-chart/lines-gl-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "map-3d-chart",
+      "type": "registry:component",
+      "title": "Map 3D Chart",
+      "description": "Map 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/map-3d-chart/map-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "map-chart",
+      "type": "registry:component",
+      "title": "Map Chart",
+      "description": "Map Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/map-chart/map-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "matrix-chart",
+      "type": "registry:component",
+      "title": "Matrix Chart",
+      "description": "Matrix Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/matrix-chart/matrix-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "parallel-chart",
+      "type": "registry:component",
+      "title": "Parallel Chart",
+      "description": "Parallel Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/parallel-chart/parallel-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pictorial-bar-chart",
+      "type": "registry:component",
+      "title": "Pictorial Bar Chart",
+      "description": "Pictorial Bar Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/pictorial-bar-chart/pictorial-bar-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pie-chart",
+      "type": "registry:component",
+      "title": "Pie Chart",
+      "description": "Pie Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/pie-chart/pie-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "radar-chart",
+      "type": "registry:component",
+      "title": "Radar Chart",
+      "description": "Radar Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/radar-chart/radar-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sankey-chart",
+      "type": "registry:component",
+      "title": "Sankey Chart",
+      "description": "Sankey Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/sankey-chart/sankey-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "scatter-3d-chart",
+      "type": "registry:component",
+      "title": "Scatter 3D Chart",
+      "description": "Scatter 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/scatter-3d-chart/scatter-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "scatter-chart",
+      "type": "registry:component",
+      "title": "Scatter Chart",
+      "description": "Scatter Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/scatter-chart/scatter-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "scatter-gl-chart",
+      "type": "registry:component",
+      "title": "Scatter GL Chart",
+      "description": "Scatter GL Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/scatter-gl-chart/scatter-gl-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sunburst-chart",
+      "type": "registry:component",
+      "title": "Sunburst Chart",
+      "description": "Sunburst Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/sunburst-chart/sunburst-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "surface-3d-chart",
+      "type": "registry:component",
+      "title": "Surface 3D Chart",
+      "description": "Surface 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/surface-3d-chart/surface-3d-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "theme-river-chart",
+      "type": "registry:component",
+      "title": "Theme River Chart",
+      "description": "Theme River Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/theme-river-chart/theme-river-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tree-chart",
+      "type": "registry:component",
+      "title": "Tree Chart",
+      "description": "Tree Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/tree-chart/tree-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "treemap-chart",
+      "type": "registry:component",
+      "title": "Treemap Chart",
+      "description": "Treemap Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+      "dependencies": [
+        "@shadcn/echarts",
+        "echarts@^6.0.0",
+        "react@>=18.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/treemap-chart/treemap-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}

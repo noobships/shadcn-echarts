@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-chart",
+  "type": "registry:component",
+  "title": "Line Chart",
+  "description": "A line chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+  "dependencies": ["@shadcn/echarts", "echarts@^6.0.0", "react@>=18.0.0"],
+  "files": [
+    {
+      "path": "registry/default/line-chart/line-chart.tsx",
+      "type": "registry:component"
+    }
+  ]
+}

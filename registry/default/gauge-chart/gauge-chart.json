@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gauge-chart",
+  "type": "registry:component",
+  "title": "Gauge Chart",
+  "description": "Gauge Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+  "dependencies": [
+    "@shadcn/echarts",
+    "echarts@^6.0.0",
+    "react@>=18.0.0"
+  ],
+  "files": [
+    {
+      "path": "registry/default/gauge-chart/gauge-chart.tsx",
+      "type": "registry:component"
+    }
+  ]
+}

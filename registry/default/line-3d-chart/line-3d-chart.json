@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-3d-chart",
+  "type": "registry:component",
+  "title": "Line 3D Chart",
+  "description": "Line 3D Chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
+  "dependencies": [
+    "@shadcn/echarts",
+    "echarts@^6.0.0",
+    "react@>=18.0.0"
+  ],
+  "files": [
+    {
+      "path": "registry/default/line-3d-chart/line-3d-chart.tsx",
+      "type": "registry:component"
+    }
+  ]
+}
