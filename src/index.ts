@@ -1,5 +1,5 @@
 /**
- * @shadcn/echarts
+ * @devstool/shadcn-echarts
  * 
  * Apache ECharts charts styled to match shadcn/ui's design language
  * with full dark/light mode support and excellent developer experience.
@@ -15,6 +15,9 @@ export * from './themes'
 
 // Hook exports
 export * from './hooks'
+
+// Preset exports
+export * from './presets'
 
 // Component exports
 export * from './components'

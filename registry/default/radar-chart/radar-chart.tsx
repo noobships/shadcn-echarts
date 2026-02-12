@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { RadarChart } from "@shadcn/echarts"
-import type { RadarChartProps } from "@shadcn/echarts"
+import { RadarChart } from "@devstool/shadcn-echarts"
+import type { RadarChartProps } from "@devstool/shadcn-echarts"
 
 export type { RadarChartProps }
 

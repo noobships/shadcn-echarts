@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { HeatmapChart } from "@shadcn/echarts"
-import type { HeatmapChartProps } from "@shadcn/echarts"
+import { HeatmapChart } from "@devstool/shadcn-echarts"
+import type { HeatmapChartProps } from "@devstool/shadcn-echarts"
 
 export type { HeatmapChartProps }
 

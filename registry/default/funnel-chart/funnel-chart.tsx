@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { FunnelChart } from "@shadcn/echarts"
-import type { FunnelChartProps } from "@shadcn/echarts"
+import { FunnelChart } from "@devstool/shadcn-echarts"
+import type { FunnelChartProps } from "@devstool/shadcn-echarts"
 
 export type { FunnelChartProps }
 

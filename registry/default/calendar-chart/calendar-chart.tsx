@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { CalendarChart } from "@shadcn/echarts"
-import type { CalendarChartProps } from "@shadcn/echarts"
+import { CalendarChart } from "@devstool/shadcn-echarts"
+import type { CalendarChartProps } from "@devstool/shadcn-echarts"
 
 export type { CalendarChartProps }
 

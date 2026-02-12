@@ -1,59 +1,105 @@
-# @shadcn/echarts
+# @devstool/shadcn-echarts
 
-Apache ECharts charts styled to match shadcn/ui's design language with full dark/light mode support and excellent developer experience.
+Apache ECharts components styled to match shadcn/ui design language with automatic light/dark theming, minimal defaults, and tree-shakeable chart exports.
 
-## 🚧 Work in Progress
+## What you get
 
-This package is currently under active development. Phase 1 (Core Package Setup) is complete.
+- shadcn-style visual language with CSS variable driven theming
+- Auto dark/light mode sync
+- Defaults-only minimal preset that does not override explicit styling
+- Tree-shakeable per-chart imports
+- npm package + shadcn registry distribution
 
-## Features
+## Installation methods
 
-- 🎨 **shadcn/ui Design Language**: Charts automatically match your shadcn/ui theme
-- 🌓 **Dark/Light Mode**: Seamless theme switching with automatic detection
-- 📦 **Tree-shakeable**: Import only what you need for optimal bundle size
-- 🔒 **Type-safe**: Full TypeScript support with ECharts' ComposeOption pattern
-- ⚡ **SSR Support**: Server-side rendering utilities included
-- 🎯 **Developer Experience**: Clean API with React hooks and utilities
-
-## Installation
+### 1) npm package
 
 ```bash
-pnpm add @shadcn/echarts echarts react
+pnpm add @devstool/shadcn-echarts echarts react
 ```
 
-## Usage
+### 2) shadcn direct URL install
 
-### Basic Example
+```bash
+npx shadcn@latest add https://shadcn-echarts.vercel.app/r/bar-chart.json
+```
 
-```tsx
-import { BarChart } from '@shadcn/echarts'
-import { useEChartsTheme } from '@shadcn/echarts/hooks'
+### 3) shadcn namespace install
 
-function MyChart() {
-  const { theme } = useEChartsTheme()
-  
-  return (
-    <BarChart
-      data={[5, 20, 36, 10, 10, 20]}
-      categories={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
-      theme={theme}
-    />
-  )
+Add a registry namespace in your `components.json`:
+
+```json
+{
+  "registries": {
+    "@devstool": "https://shadcn-echarts.vercel.app/r/{name}.json"
+  }
 }
 ```
 
-### Theme Setup
+Then install by namespace:
 
-```tsx
-import { registerShadcnThemes } from '@shadcn/echarts/themes'
-
-// Register themes on app initialization
-registerShadcnThemes()
+```bash
+npx shadcn@latest add @devstool/bar-chart
 ```
 
-## Documentation
+### 4) Manual source ownership
 
-Full documentation coming soon. See the [implementation plan](.cursor/plans/shadcn-echarts_implementation_plan_44021a4f.plan.md) for current progress.
+Copy files from `registry/default/*` into your project and customize freely.
+
+## Usage
+
+```tsx
+import { BarChart } from "@devstool/shadcn-echarts";
+
+export function MyChart() {
+  return (
+    <BarChart
+      option={{
+        xAxis: { type: "category", data: ["Mon", "Tue", "Wed"] },
+        yAxis: { type: "value" },
+        series: [{ type: "bar", data: [150, 230, 224] }],
+      }}
+      height={320}
+    />
+  );
+}
+```
+
+## Local development
+
+```bash
+# library build/watch
+pnpm build
+pnpm dev
+
+# registry assets for docs site
+pnpm registry:build
+pnpm registry:verify
+
+# public docs website
+pnpm www:dev
+pnpm www:build
+
+# interactive demo workspace
+pnpm -C demo dev
+```
+
+## Registry endpoints
+
+- Registry index: `/registry.json`
+- Registry items: `/r/<component>.json`
+
+On Vercel this resolves to:
+
+- `https://shadcn-echarts.vercel.app/registry.json`
+- `https://shadcn-echarts.vercel.app/r/bar-chart.json`
+
+## Project docs
+
+- `docs/polish/style-spec.md`
+- `docs/polish/presets.md`
+- `docs/polish/theming.md`
+- `docs/release/vercel-github-checklist.md`
 
 ## License
 

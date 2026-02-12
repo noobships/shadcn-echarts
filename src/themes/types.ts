@@ -13,9 +13,21 @@ export interface ShadcnChartColors {
   chart5: string
   background: string
   foreground: string
+  card?: string
+  cardForeground?: string
+  popover?: string
+  popoverForeground?: string
+  secondary?: string
+  secondaryForeground?: string
   muted: string
   mutedForeground: string
+  accent?: string
+  accentForeground?: string
+  destructive?: string
+  destructiveForeground?: string
   border: string
+  input?: string
+  ring?: string
   primary: string
   primaryForeground: string
 }
@@ -35,9 +47,15 @@ export interface EChartsTheme {
   title?: {
     textStyle?: {
       color?: string
+      fontFamily?: string
+      fontSize?: number
+      fontWeight?: string | number
     }
     subtextStyle?: {
       color?: string
+      fontFamily?: string
+      fontSize?: number
+      fontWeight?: string | number
     }
   }
   line?: {
@@ -147,6 +165,7 @@ export interface EChartsTheme {
       }
     }
     axisTick?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -205,11 +224,13 @@ export interface EChartsTheme {
   }
   categoryAxis?: {
     axisLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
     }
     axisTick?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -218,6 +239,7 @@ export interface EChartsTheme {
       color?: string
     }
     splitLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -225,11 +247,13 @@ export interface EChartsTheme {
   }
   valueAxis?: {
     axisLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
     }
     axisTick?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -238,18 +262,22 @@ export interface EChartsTheme {
       color?: string
     }
     splitLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
+        type?: string
       }
     }
   }
   logAxis?: {
     axisLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
     }
     axisTick?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -258,6 +286,7 @@ export interface EChartsTheme {
       color?: string
     }
     splitLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -265,11 +294,13 @@ export interface EChartsTheme {
   }
   timeAxis?: {
     axisLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
     }
     axisTick?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }
@@ -278,6 +309,7 @@ export interface EChartsTheme {
       color?: string
     }
     splitLine?: {
+      show?: boolean
       lineStyle?: {
         color?: string
       }

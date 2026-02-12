@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { SunburstChart } from "@shadcn/echarts"
-import type { SunburstChartProps } from "@shadcn/echarts"
+import { SunburstChart } from "@devstool/shadcn-echarts"
+import type { SunburstChartProps } from "@devstool/shadcn-echarts"
 
 export type { SunburstChartProps }
 

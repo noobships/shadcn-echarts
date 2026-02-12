@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { GraphChart } from "@shadcn/echarts"
-import type { GraphChartProps } from "@shadcn/echarts"
+import { GraphChart } from "@devstool/shadcn-echarts"
+import type { GraphChartProps } from "@devstool/shadcn-echarts"
 
 export type { GraphChartProps }
 

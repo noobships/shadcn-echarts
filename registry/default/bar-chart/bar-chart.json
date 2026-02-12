@@ -4,7 +4,7 @@
   "type": "registry:component",
   "title": "Bar Chart",
   "description": "A bar chart component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.",
-  "dependencies": ["@shadcn/echarts", "echarts@^6.0.0", "react@>=18.0.0"],
+  "dependencies": ["@devstool/shadcn-echarts", "echarts@^6.0.0", "react@>=18.0.0"],
   "files": [
     {
       "path": "registry/default/bar-chart/bar-chart.tsx",

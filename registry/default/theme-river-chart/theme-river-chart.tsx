@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { ThemeRiverChart } from "@shadcn/echarts"
-import type { ThemeRiverChartProps } from "@shadcn/echarts"
+import { ThemeRiverChart } from "@devstool/shadcn-echarts"
+import type { ThemeRiverChartProps } from "@devstool/shadcn-echarts"
 
 export type { ThemeRiverChartProps }
 

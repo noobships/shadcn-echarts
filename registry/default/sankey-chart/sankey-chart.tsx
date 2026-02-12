@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { SankeyChart } from "@shadcn/echarts"
-import type { SankeyChartProps } from "@shadcn/echarts"
+import { SankeyChart } from "@devstool/shadcn-echarts"
+import type { SankeyChartProps } from "@devstool/shadcn-echarts"
 
 export type { SankeyChartProps }
 

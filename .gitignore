@@ -1,11 +1,16 @@
 # Dependencies
 node_modules
+.pnpm-store
+.pnpm-store/
 .pnp
 .pnp.js
 
 # Build outputs
 dist
 build
+.next
+apps/www/public/r
+apps/www/public/registry.json
 *.tsbuildinfo
 
 # Environment
@@ -34,6 +39,10 @@ pnpm-debug.log*
 # Testing
 coverage
 .nyc_output
+test-results
+test-results/
+playwright-report
+playwright-report/
 
 # Misc
 .cache

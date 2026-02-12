@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { Surface3DChart } from "@shadcn/echarts"
-import type { Surface3DChartProps } from "@shadcn/echarts"
+import { Surface3DChart } from "@devstool/shadcn-echarts"
+import type { Surface3DChartProps } from "@devstool/shadcn-echarts"
 
 export type { Surface3DChartProps }
 

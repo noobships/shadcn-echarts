@@ -1,5 +1,5 @@
 /**
- * Core TypeScript types for @shadcn/echarts
+ * Core TypeScript types for @devstool/shadcn-echarts
  * 
  * Leverages ECharts' ComposeOption pattern for strict type safety.
  */
@@ -251,6 +251,12 @@ export interface BaseChartProps {
   height?: number | string
   /** Theme name ('light', 'dark', or custom) */
   theme?: string
+  /**
+   * Apply the built-in shadcn-style minimal defaults preset.
+   *
+   * Defaults to `true`. Set to `false` to opt out and use raw ECharts defaults.
+   */
+  preset?: boolean
   /** Whether to enable SSR mode */
   ssr?: boolean
   /** Renderer type ('canvas' or 'svg') */

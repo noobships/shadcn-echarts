@@ -60,8 +60,8 @@ function generateComponent(chart) {
   return `"use client"
 
 import type { CSSProperties } from "react"
-import { ${importName}Chart } from "@shadcn/echarts"
-import type { ${chart.optionType} } from "@shadcn/echarts"
+import { ${importName}Chart } from "@devstool/shadcn-echarts"
+import type { ${chart.optionType} } from "@devstool/shadcn-echarts"
 
 export interface ${componentName}ChartProps {
   option: ${chart.optionType}
@@ -107,7 +107,7 @@ function generateJSON(chart) {
     type: "registry:component",
     title: chart.title,
     description: `${chart.title} component built with Apache ECharts, styled to match shadcn/ui's design language with automatic dark/light mode support.`,
-    dependencies: ["@shadcn/echarts", "echarts@^6.0.0", "react@>=18.0.0"],
+    dependencies: ["@devstool/shadcn-echarts", "echarts@^6.0.0", "react@>=18.0.0"],
     files: [
       {
         path: `${registryBase}/${chart.name}/${chart.name}.tsx`,

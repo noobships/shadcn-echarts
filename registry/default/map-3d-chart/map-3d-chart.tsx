@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { Map3DChart } from "@shadcn/echarts"
-import type { Map3DChartProps } from "@shadcn/echarts"
+import { Map3DChart } from "@devstool/shadcn-echarts"
+import type { Map3DChartProps } from "@devstool/shadcn-echarts"
 
 export type { Map3DChartProps }
 

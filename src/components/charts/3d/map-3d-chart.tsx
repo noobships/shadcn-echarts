@@ -4,7 +4,6 @@
 
 'use client'
 
-import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts/core'
 import {
   TitleComponent,
@@ -19,10 +18,9 @@ import { CanvasRenderer } from 'echarts/renderers'
 import { Chart, type ChartProps } from '../../chart'
 import type { Map3DChartOption } from '../../../core/types'
 
+// Register required components synchronously at module load
 let registered = false
-
-function registerComponents() {
-  if (registered) return
+if (!registered) {
   echarts.use([
     TitleComponent,
     TooltipComponent,
@@ -42,14 +40,5 @@ export interface Map3DChartProps extends Omit<ChartProps, 'option'> {
 }
 
 export function Map3DChartComponent(props: Map3DChartProps): React.JSX.Element {
-  const hasRegistered = useRef(false)
-
-  useEffect(() => {
-    if (!hasRegistered.current) {
-      registerComponents()
-      hasRegistered.current = true
-    }
-  }, [])
-
   return <Chart {...props} />
 }

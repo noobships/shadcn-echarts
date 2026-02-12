@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { ChordChart } from "@shadcn/echarts"
-import type { ChordChartProps } from "@shadcn/echarts"
+import { ChordChart } from "@devstool/shadcn-echarts"
+import type { ChordChartProps } from "@devstool/shadcn-echarts"
 
 export type { ChordChartProps }
 

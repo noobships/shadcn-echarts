@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { BoxplotChart } from "@shadcn/echarts"
-import type { BoxplotChartProps } from "@shadcn/echarts"
+import { BoxplotChart } from "@devstool/shadcn-echarts"
+import type { BoxplotChartProps } from "@devstool/shadcn-echarts"
 
 export type { BoxplotChartProps }
 

@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { Line3DChart } from "@shadcn/echarts"
-import type { Line3DChartProps } from "@shadcn/echarts"
+import { Line3DChart } from "@devstool/shadcn-echarts"
+import type { Line3DChartProps } from "@devstool/shadcn-echarts"
 
 export type { Line3DChartProps }
 

@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { GeoChart } from "@shadcn/echarts"
-import type { GeoChartProps } from "@shadcn/echarts"
+import { GeoChart } from "@devstool/shadcn-echarts"
+import type { GeoChartProps } from "@devstool/shadcn-echarts"
 
 export type { GeoChartProps }
 

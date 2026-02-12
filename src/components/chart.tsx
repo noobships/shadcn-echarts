@@ -7,12 +7,42 @@
 
 'use client'
 
-import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useEffect, useMemo, useRef, useState, useImperativeHandle, forwardRef } from 'react'
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { initChart, disposeChart, resizeChart, setChartOption } from '../core/chart'
 import type { EChartsType, EChartsCoreOption } from 'echarts/core'
 import type { BaseChartProps } from '../core/types'
-import { getThemeName } from '../themes/registry'
+import type { ThemeMode } from '../themes/types'
+import { getThemeMode, registerShadcnTheme } from '../themes/registry'
+import { applyMinimalPreset } from '../presets/minimal'
+
+function shadcnThemeName(mode: ThemeMode): string {
+  return mode === 'dark' ? 'shadcn-dark' : 'shadcn-light'
+}
+
+function normalizeTheme(
+  themeProp: string | undefined,
+  autoMode: ThemeMode
+): { themeName: string; mode: ThemeMode | null; isShadcn: boolean } {
+  if (themeProp === undefined) {
+    return { themeName: shadcnThemeName(autoMode), mode: autoMode, isShadcn: true }
+  }
+
+  const t = themeProp.trim()
+  if (t === 'dark' || t === 'light') {
+    return { themeName: shadcnThemeName(t), mode: t, isShadcn: true }
+  }
+
+  if (t === 'shadcn-dark') {
+    return { themeName: t, mode: 'dark', isShadcn: true }
+  }
+
+  if (t === 'shadcn-light') {
+    return { themeName: t, mode: 'light', isShadcn: true }
+  }
+
+  return { themeName: t, mode: null, isShadcn: false }
+}
 
 export interface ChartRef {
   getEchartsInstance: () => EChartsType | null
@@ -54,6 +84,7 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
     width,
     height,
     theme,
+    preset = true,
     ssr = false,
     renderer = 'canvas',
     loading = false,
@@ -70,8 +101,54 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<EChartsType | null>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
+  const lastOptionRef = useRef<EChartsCoreOption | null>(null)
 
-  // Initialize chart
+  const [autoMode, setAutoMode] = useState<ThemeMode>(() => getThemeMode())
+  const resolvedTheme = useMemo(() => normalizeTheme(theme, autoMode), [theme, autoMode])
+
+  // Watch for mode changes only when theme isn't explicitly provided
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return
+    }
+
+    if (theme !== undefined) {
+      return
+    }
+
+    const update = () => {
+      setAutoMode(getThemeMode())
+    }
+
+    // Sync once on mount (covers cases where theme class is applied late)
+    update()
+
+    const observer = new MutationObserver(update)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleMediaChange = () => update()
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleMediaChange)
+    } else {
+      mediaQuery.addListener(handleMediaChange)
+    }
+
+    return () => {
+      observer.disconnect()
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleMediaChange)
+      } else {
+        mediaQuery.removeListener(handleMediaChange)
+      }
+    }
+  }, [theme])
+
+  // Initialize chart (do not re-init on theme changes; use setTheme instead)
   useEffect(() => {
     if (ssr || typeof window === 'undefined') {
       return
@@ -82,58 +159,79 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
       return
     }
 
-    // Determine theme
-    const finalTheme = theme ?? getThemeName()
+    // Ensure shadcn themes are registered before init when using them
+    if (resolvedTheme.isShadcn && resolvedTheme.mode) {
+      registerShadcnTheme(resolvedTheme.mode)
+    }
 
     // Initialize chart
-    chartRef.current = initChart(container, finalTheme, {
+    chartRef.current = initChart(container, resolvedTheme.themeName, {
       renderer,
       ssr: false,
       width: typeof width === 'number' ? width : undefined,
       height: typeof height === 'number' ? height : undefined,
     })
 
-    // Set initial option
-    if (option) {
-      setChartOption(chartRef.current, option, { notMerge, lazyUpdate })
-    }
-
-    // Attach event handlers
-    if (onEvents && chartRef.current) {
-      Object.entries(onEvents).forEach(([eventName, handler]) => {
-        chartRef.current?.on(eventName, handler)
-      })
-    }
-
     // Cleanup function
     return () => {
       if (chartRef.current) {
-        // Remove event handlers
-        if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
-            chartRef.current?.off(eventName)
-          })
-        }
         disposeChart(chartRef.current)
         chartRef.current = null
       }
     }
-  }, [ssr, renderer, theme]) // Only re-initialize if these change
+  }, [ssr, renderer]) // Only re-initialize if these change
 
   // Update option when it changes
   useEffect(() => {
     if (chartRef.current && option) {
-      setChartOption(chartRef.current, option, { notMerge, lazyUpdate })
+      const effectiveOption = preset ? applyMinimalPreset(option, { mode: resolvedTheme.mode ?? autoMode }) : option
+      lastOptionRef.current = effectiveOption
+      setChartOption(chartRef.current, effectiveOption, { notMerge, lazyUpdate })
     }
-  }, [option, notMerge, lazyUpdate])
+  }, [option, preset, notMerge, lazyUpdate, autoMode, resolvedTheme.mode])
 
-  // Update theme when it changes
+  // Attach event handlers (and keep them updated)
   useEffect(() => {
-    if (chartRef.current && theme !== undefined) {
-      const finalTheme = theme ?? getThemeName()
-      chartRef.current.setTheme(finalTheme)
+    const chart = chartRef.current
+    if (!chart || chart.isDisposed()) {
+      return
     }
-  }, [theme])
+
+    if (!onEvents) {
+      return
+    }
+
+    Object.entries(onEvents).forEach(([eventName, handler]) => {
+      chart.on(eventName, handler)
+    })
+
+    return () => {
+      Object.keys(onEvents).forEach((eventName) => {
+        chart.off(eventName)
+      })
+    }
+  }, [onEvents])
+
+  // Update theme (auto or explicit) and re-apply option to pick up theme defaults
+  useEffect(() => {
+    const chart = chartRef.current
+    if (!chart || chart.isDisposed()) {
+      return
+    }
+
+    if (resolvedTheme.isShadcn && resolvedTheme.mode) {
+      registerShadcnTheme(resolvedTheme.mode)
+    }
+
+    if (typeof (chart as any).setTheme === 'function') {
+      ;(chart as any).setTheme(resolvedTheme.themeName)
+    }
+
+    const currentOption = lastOptionRef.current
+    if (currentOption) {
+      setChartOption(chart, currentOption, { notMerge: true, lazyUpdate: true })
+    }
+  }, [resolvedTheme.themeName, resolvedTheme.isShadcn, resolvedTheme.mode])
 
   // Handle loading state
   useEffect(() => {

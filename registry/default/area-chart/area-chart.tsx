@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { AreaChart } from "@shadcn/echarts"
-import type { AreaChartProps } from "@shadcn/echarts"
+import { AreaChart } from "@devstool/shadcn-echarts"
+import type { AreaChartProps } from "@devstool/shadcn-echarts"
 
 export type { AreaChartProps }
 

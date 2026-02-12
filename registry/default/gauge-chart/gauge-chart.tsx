@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { GaugeChart } from "@shadcn/echarts"
-import type { GaugeChartProps } from "@shadcn/echarts"
+import { GaugeChart } from "@devstool/shadcn-echarts"
+import type { GaugeChartProps } from "@devstool/shadcn-echarts"
 
 export type { GaugeChartProps }
 

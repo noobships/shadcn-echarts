@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { Globe3DChart } from "@shadcn/echarts"
-import type { Globe3DChartProps } from "@shadcn/echarts"
+import { Globe3DChart } from "@devstool/shadcn-echarts"
+import type { Globe3DChartProps } from "@devstool/shadcn-echarts"
 
 export type { Globe3DChartProps }
 

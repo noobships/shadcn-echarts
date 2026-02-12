@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { TreeChart } from "@shadcn/echarts"
-import type { TreeChartProps } from "@shadcn/echarts"
+import { TreeChart } from "@devstool/shadcn-echarts"
+import type { TreeChartProps } from "@devstool/shadcn-echarts"
 
 export type { TreeChartProps }
 

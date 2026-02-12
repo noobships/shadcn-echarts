@@ -33,7 +33,7 @@ for (const chartDir of chartDirs) {
 const registryJson = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "shadcn-echarts",
-  homepage: "https://github.com/shadcn/echarts",
+  homepage: "https://shadcn-echarts.vercel.app",
   items: items,
 }
 

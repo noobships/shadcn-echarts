@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { MatrixChart } from "@shadcn/echarts"
-import type { MatrixChartProps } from "@shadcn/echarts"
+import { MatrixChart } from "@devstool/shadcn-echarts"
+import type { MatrixChartProps } from "@devstool/shadcn-echarts"
 
 export type { MatrixChartProps }
 

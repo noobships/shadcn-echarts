@@ -1,0 +1,30 @@
+// import * as echarts from 'echarts';
+
+// type EChartsOption = echarts.EChartsOption;
+
+// var chartDom = document.getElementById('main')!;
+// var myChart = echarts.init(chartDom, null, {
+//   renderer: 'svg'
+// });
+// var option: EChartsOption;
+
+// option = {
+//   tooltip: {},
+//   legend: {},
+//   series: [
+//     {
+//       type: 'chord',
+//       clockwise: false,
+//       label: { show: true },
+//       lineStyle: { color: 'target' },
+//       data: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }],
+//       links: [
+//         { source: 'A', target: 'B', value: 40 },
+//         { source: 'A', target: 'C', value: 20 },
+//         { source: 'B', target: 'D', value: 20 }
+//       ]
+//     }
+//   ]
+// };
+
+// option && myChart.setOption(option);

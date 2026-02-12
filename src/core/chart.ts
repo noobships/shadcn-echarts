@@ -5,7 +5,71 @@
  */
 
 import * as echarts from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import {
+  AriaComponent,
+  AxisPointerComponent,
+  BrushComponent,
+  CalendarComponent,
+  DataZoomComponent,
+  DataZoomInsideComponent,
+  DataZoomSliderComponent,
+  DatasetComponent,
+  GeoComponent,
+  GraphicComponent,
+  GridComponent,
+  LegendComponent,
+  MarkAreaComponent,
+  MarkLineComponent,
+  MarkPointComponent,
+  MatrixComponent,
+  ParallelComponent,
+  PolarComponent,
+  RadarComponent,
+  SingleAxisComponent,
+  TimelineComponent,
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  TransformComponent,
+  VisualMapComponent,
+} from 'echarts/components'
 import type { EChartsCoreOption, EChartsType } from 'echarts/core'
+
+// Ensure renderer and shared components are always registered.
+let baseRegistered = false
+if (!baseRegistered) {
+  echarts.use([
+    CanvasRenderer,
+    AriaComponent,
+    AxisPointerComponent,
+    BrushComponent,
+    CalendarComponent,
+    DataZoomComponent,
+    DataZoomInsideComponent,
+    DataZoomSliderComponent,
+    DatasetComponent,
+    GeoComponent,
+    GraphicComponent,
+    GridComponent,
+    LegendComponent,
+    MarkAreaComponent,
+    MarkLineComponent,
+    MarkPointComponent,
+    MatrixComponent,
+    ParallelComponent,
+    PolarComponent,
+    RadarComponent,
+    SingleAxisComponent,
+    TimelineComponent,
+    TitleComponent,
+    ToolboxComponent,
+    TooltipComponent,
+    TransformComponent,
+    VisualMapComponent,
+  ])
+  baseRegistered = true
+}
 
 /**
  * ECharts initialization options

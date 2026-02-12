@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { Scatter3DChart } from "@shadcn/echarts"
-import type { Scatter3DChartProps } from "@shadcn/echarts"
+import { Scatter3DChart } from "@devstool/shadcn-echarts"
+import type { Scatter3DChartProps } from "@devstool/shadcn-echarts"
 
 export type { Scatter3DChartProps }
 

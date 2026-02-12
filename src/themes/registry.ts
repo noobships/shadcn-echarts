@@ -9,6 +9,43 @@ import type { EChartsType } from 'echarts/core'
 import { extractShadcnColors, buildEChartsTheme } from './builder'
 import type { ThemeMode, ShadcnChartColors, EChartsTheme } from './types'
 
+const lastThemeSignatureByName: Record<string, string | undefined> = {}
+
+function themeSignature(colors: ShadcnChartColors): string {
+  // Include font family because the theme pulls it from the page.
+  const fontFamily =
+    typeof window !== 'undefined' && typeof document !== 'undefined' && document.body
+      ? getComputedStyle(document.body).fontFamily
+      : ''
+  return JSON.stringify(colors) + `|font:${fontFamily}`
+}
+
+/**
+ * Register a single shadcn theme for the current token state.
+ *
+ * Important: this reads CSS variables as currently applied on the passed element.
+ * Call it when the DOM is already in the desired mode.
+ */
+export function registerShadcnTheme(mode: ThemeMode, element?: HTMLElement): void {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return
+  }
+
+  const targetElement = element ?? document.documentElement
+  const themeName = mode === 'dark' ? 'shadcn-dark' : 'shadcn-light'
+
+  const colors = extractShadcnColors(targetElement)
+  const sig = themeSignature(colors)
+
+  if (lastThemeSignatureByName[themeName] === sig) {
+    return
+  }
+
+  const theme = buildEChartsTheme(colors, mode)
+  echarts.registerTheme(themeName, theme)
+  lastThemeSignatureByName[themeName] = sig
+}
+
 /**
  * Register shadcn/ui themes (light and dark)
  * 
@@ -32,18 +69,14 @@ export function registerShadcnThemes(
   if (hadDarkClass) {
     targetElement.classList.remove('dark')
   }
-  const lightColors = extractShadcnColors(targetElement)
-  const lightTheme = buildEChartsTheme(lightColors, 'light')
-  echarts.registerTheme('shadcn-light', lightTheme)
+  registerShadcnTheme('light', targetElement)
 
   // Register dark theme
   // Temporarily add dark class to read dark theme variables
   if (!hadDarkClass) {
     targetElement.classList.add('dark')
   }
-  const darkColors = extractShadcnColors(targetElement)
-  const darkTheme = buildEChartsTheme(darkColors, 'dark')
-  echarts.registerTheme('shadcn-dark', darkTheme)
+  registerShadcnTheme('dark', targetElement)
 
   // Restore original dark class state
   if (hadDarkClass && !targetElement.classList.contains('dark')) {

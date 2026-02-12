@@ -1,0 +1,40 @@
+export const EXAMPLE_ASSET_MAP: Record<string, string> = {
+  "https://echarts.apache.org/examples/data/asset/data/aqi-beijing.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/aqi-beijing.json",
+  "https://echarts.apache.org/examples/data/asset/data/confidence-band.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/confidence-band.json",
+  "https://echarts.apache.org/examples/data/asset/data/disk.tree.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/disk.tree.json",
+  "https://echarts.apache.org/examples/data/asset/data/ec-option-doc-statistics-201604.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/ec-option-doc-statistics-201604.json",
+  "https://echarts.apache.org/examples/data/asset/data/echarts-package-size.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/echarts-package-size.json",
+  "https://echarts.apache.org/examples/data/asset/data/energy.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/energy.json",
+  "https://echarts.apache.org/examples/data/asset/data/fake-nebula.bin": "/echarts-assets/echarts.apache.org/examples/data/asset/data/fake-nebula.bin",
+  "https://echarts.apache.org/examples/data/asset/data/flare.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/flare.json",
+  "https://echarts.apache.org/examples/data/asset/data/house-price-area2.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/house-price-area2.json",
+  "https://echarts.apache.org/examples/data/asset/data/kawhi-leonard-16-17-regular.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/kawhi-leonard-16-17-regular.json",
+  "https://echarts.apache.org/examples/data/asset/data/les-miserables.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/les-miserables.json",
+  "https://echarts.apache.org/examples/data/asset/data/life-expectancy-table.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/life-expectancy-table.json",
+  "https://echarts.apache.org/examples/data/asset/data/life-expectancy.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/life-expectancy.json",
+  "https://echarts.apache.org/examples/data/asset/data/masterPainterColorChoice.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/masterPainterColorChoice.json",
+  "https://echarts.apache.org/examples/data/asset/data/nba-court.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/nba-court.json",
+  "https://echarts.apache.org/examples/data/asset/data/npmdepgraph.min10.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/npmdepgraph.min10.json",
+  "https://echarts.apache.org/examples/data/asset/data/nutrients.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/nutrients.json",
+  "https://echarts.apache.org/examples/data/asset/data/obama_budget_proposal_2012.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/obama_budget_proposal_2012.json",
+  "https://echarts.apache.org/examples/data/asset/data/obama_budget_proposal_2012.list.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/obama_budget_proposal_2012.list.json",
+  "https://echarts.apache.org/examples/data/asset/data/product.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/product.json",
+  "https://echarts.apache.org/examples/data/asset/data/stock-DJI.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/stock-DJI.json",
+  "https://echarts.apache.org/examples/data/asset/data/webkit-dep.json": "/echarts-assets/echarts.apache.org/examples/data/asset/data/webkit-dep.json",
+  "https://echarts.apache.org/examples/data/asset/geo/HK.json": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/HK.json",
+  "https://echarts.apache.org/examples/data/asset/geo/MacOdrum-LV5-floorplan-web.svg": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/MacOdrum-LV5-floorplan-web.svg",
+  "https://echarts.apache.org/examples/data/asset/geo/Map_of_Iceland.svg": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/Map_of_Iceland.svg",
+  "https://echarts.apache.org/examples/data/asset/geo/Sicily_prehellenic_topographic_map.svg": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/Sicily_prehellenic_topographic_map.svg",
+  "https://echarts.apache.org/examples/data/asset/geo/USA.json": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/USA.json",
+  "https://echarts.apache.org/examples/data/asset/geo/ch.geo.json": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/ch.geo.json",
+  "https://echarts.apache.org/examples/data/asset/geo/flight-seats.svg": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/flight-seats.svg",
+  "https://echarts.apache.org/examples/data/asset/geo/iceland.geo.json": "/echarts-assets/echarts.apache.org/examples/data/asset/geo/iceland.geo.json",
+  "https://echarts.apache.org/examples/data/asset/img/weather/cloudy_128.png": "/echarts-assets/echarts.apache.org/examples/data/asset/img/weather/cloudy_128.png",
+  "https://echarts.apache.org/examples/data/asset/img/weather/showers_128.png": "/echarts-assets/echarts.apache.org/examples/data/asset/img/weather/showers_128.png",
+  "https://echarts.apache.org/examples/data/asset/img/weather/sunny_128.png": "/echarts-assets/echarts.apache.org/examples/data/asset/img/weather/sunny_128.png",
+  "https://github.com/jsundram/streamgraph.js/blob/master/examples/data/lastfm.js": "/echarts-assets/github.com/jsundram/streamgraph.js/blob/master/examples/data/lastfm.js"
+} as Record<string, string>;
+
+export const EXAMPLE_ASSET_FAILURES: Record<string, string> = {
+  "https://echarts.apache.org/examples/data/asset/data/links-ny/links_ny_": "HTTP 404"
+} as Record<string, string>;

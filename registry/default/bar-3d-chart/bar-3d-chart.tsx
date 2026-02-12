@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { Bar3DChart } from "@shadcn/echarts"
-import type { Bar3DChartProps } from "@shadcn/echarts"
+import { Bar3DChart } from "@devstool/shadcn-echarts"
+import type { Bar3DChartProps } from "@devstool/shadcn-echarts"
 
 export type { Bar3DChartProps }
 

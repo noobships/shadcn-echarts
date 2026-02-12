@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { CustomChart } from "@shadcn/echarts"
-import type { CustomChartProps } from "@shadcn/echarts"
+import { CustomChart } from "@devstool/shadcn-echarts"
+import type { CustomChartProps } from "@devstool/shadcn-echarts"
 
 export type { CustomChartProps }
 

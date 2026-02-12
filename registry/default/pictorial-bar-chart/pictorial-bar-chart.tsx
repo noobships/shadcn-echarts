@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { PictorialBarChart } from "@shadcn/echarts"
-import type { PictorialBarChartProps } from "@shadcn/echarts"
+import { PictorialBarChart } from "@devstool/shadcn-echarts"
+import type { PictorialBarChartProps } from "@devstool/shadcn-echarts"
 
 export type { PictorialBarChartProps }
 

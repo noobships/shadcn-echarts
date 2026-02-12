@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { ParallelChart } from "@shadcn/echarts"
-import type { ParallelChartProps } from "@shadcn/echarts"
+import { ParallelChart } from "@devstool/shadcn-echarts"
+import type { ParallelChartProps } from "@devstool/shadcn-echarts"
 
 export type { ParallelChartProps }
 
