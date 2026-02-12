@@ -1,6 +1,6 @@
 {
   "name": "@devstool/shadcn-echarts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Apache ECharts charts styled to match shadcn/ui's design language with full dark/light mode support",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,5 +1,11 @@
 # @devstool/shadcn-echarts
 
+## 0.1.2
+
+### Patch Changes
+
+- 1885d6c: Update README and registry install examples to use the production domain `shadcn-echarts.devstool.dev` instead of the previous `vercel.app` URLs.
+
 ## 0.1.1
 
 ### Patch Changes
