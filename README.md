@@ -21,7 +21,7 @@ pnpm add @devstool/shadcn-echarts echarts react
 ### 2) shadcn direct URL install
 
 ```bash
-npx shadcn@latest add https://shadcn-echarts.vercel.app/r/bar-chart.json
+npx shadcn@latest add https://shadcn-echarts.devstool.dev/r/bar-chart.json
 ```
 
 ### 3) shadcn namespace install
@@ -31,7 +31,7 @@ Add a registry namespace in your `components.json`:
 ```json
 {
   "registries": {
-    "@devstool": "https://shadcn-echarts.vercel.app/r/{name}.json"
+    "@devstool": "https://shadcn-echarts.devstool.dev/r/{name}.json"
   }
 }
 ```
@@ -91,8 +91,8 @@ pnpm -C demo dev
 
 On Vercel this resolves to:
 
-- `https://shadcn-echarts.vercel.app/registry.json`
-- `https://shadcn-echarts.vercel.app/r/bar-chart.json`
+- `https://shadcn-echarts.devstool.dev/registry.json`
+- `https://shadcn-echarts.devstool.dev/r/bar-chart.json`
 
 ## Project docs
 

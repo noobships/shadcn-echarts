@@ -21,6 +21,6 @@
   "menuColor": "default",
   "menuAccent": "subtle",
   "registries": {
-    "@devstool": "https://shadcn-echarts.vercel.app/r/{name}.json"
+    "@devstool": "https://shadcn-echarts.devstool.dev/r/{name}.json"
   }
 }
