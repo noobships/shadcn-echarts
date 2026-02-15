@@ -275,6 +275,21 @@ export interface BaseChartProps {
   className?: string
   /** Auto-resize */
   autoResize?: boolean
+  /**
+   * Run an initial mount animation sequence for charts with series data.
+   *
+   * When enabled, the chart briefly applies an inert option frame and then
+   * applies the real option to ensure a visible first-load entrance animation.
+   *
+   * Defaults to `true`.
+   */
+  animateOnMount?: boolean
+  /**
+   * Delay (ms) before applying the real option in the mount animation sequence.
+   *
+   * Defaults to `16` (roughly one frame at 60Hz).
+   */
+  animateOnMountDelayMs?: number
 }
 
 /**

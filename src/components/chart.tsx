@@ -16,8 +16,65 @@ import type { ThemeMode } from '../themes/types'
 import { getThemeMode, registerShadcnTheme } from '../themes/registry'
 import { applyMinimalPreset } from '../presets/minimal'
 
+type AnyRecord = Record<string, unknown>
+
 function shadcnThemeName(mode: ThemeMode): string {
   return mode === 'dark' ? 'shadcn-dark' : 'shadcn-light'
+}
+
+function asArray<T>(value: T | T[] | undefined): T[] {
+  if (value === undefined) {
+    return []
+  }
+  return Array.isArray(value) ? value : [value]
+}
+
+function restoreArrayOrSingle<T>(original: T | T[] | undefined, next: T[]): T | T[] | undefined {
+  if (original === undefined) {
+    return undefined
+  }
+  return Array.isArray(original) ? next : next[0]
+}
+
+function hasSeriesEntries(option: EChartsCoreOption): boolean {
+  const optionRecord = option as AnyRecord
+  const series = asArray(optionRecord.series as AnyRecord | AnyRecord[] | undefined)
+  return series.length > 0
+}
+
+function createMountSeedOption(option: EChartsCoreOption): EChartsCoreOption {
+  const optionRecord = option as AnyRecord
+  const seriesInput = optionRecord.series as AnyRecord | AnyRecord[] | undefined
+  const seriesList = asArray(seriesInput)
+
+  const seededSeries = seriesList.map((series) => {
+    if (typeof series !== 'object' || series === null || Array.isArray(series)) {
+      return series
+    }
+
+    const seeded: AnyRecord = { ...series, animation: false, data: [] }
+    if ('links' in seeded) {
+      seeded.links = []
+    }
+    if ('nodes' in seeded) {
+      seeded.nodes = []
+    }
+    return seeded
+  })
+
+  const seededOption: AnyRecord = {
+    ...optionRecord,
+    animation: false,
+  }
+
+  if (seriesInput !== undefined) {
+    seededOption.series = restoreArrayOrSingle(
+      seriesInput as AnyRecord | AnyRecord[] | undefined,
+      seededSeries as AnyRecord[],
+    )
+  }
+
+  return seededOption as EChartsCoreOption
 }
 
 function normalizeTheme(
@@ -95,6 +152,8 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
     autoResize = true,
     notMerge = false,
     lazyUpdate = false,
+    animateOnMount = true,
+    animateOnMountDelayMs = 16,
   },
   ref
 ) {
@@ -103,6 +162,9 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
   const lastOptionRef = useRef<EChartsCoreOption | null>(null)
   const lastAppliedThemeRef = useRef<string | null>(null)
+  const mountAnimationDoneRef = useRef<boolean>(false)
+  const mountAnimationActiveRef = useRef<boolean>(false)
+  const mountAnimationTimerRef = useRef<number | null>(null)
 
   const [autoMode, setAutoMode] = useState<ThemeMode>(() => getThemeMode())
   const resolvedTheme = useMemo(() => normalizeTheme(theme, autoMode), [theme, autoMode])
@@ -173,9 +235,17 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
       height: typeof height === 'number' ? height : undefined,
     })
     lastAppliedThemeRef.current = resolvedTheme.themeName
+    mountAnimationDoneRef.current = false
+    mountAnimationActiveRef.current = false
 
     // Cleanup function
     return () => {
+      if (mountAnimationTimerRef.current !== null && typeof window !== 'undefined') {
+        window.clearTimeout(mountAnimationTimerRef.current)
+        mountAnimationTimerRef.current = null
+      }
+      mountAnimationActiveRef.current = false
+      mountAnimationDoneRef.current = false
       if (chartRef.current) {
         disposeChart(chartRef.current)
         chartRef.current = null
@@ -186,12 +256,62 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
 
   // Update option when it changes
   useEffect(() => {
-    if (chartRef.current && option) {
+    const chart = chartRef.current
+    if (chart && option) {
       const effectiveOption = preset ? applyMinimalPreset(option, { mode: resolvedTheme.mode ?? autoMode }) : option
       lastOptionRef.current = effectiveOption
-      setChartOption(chartRef.current, effectiveOption, { notMerge, lazyUpdate })
+
+      const canAnimateOnMount =
+        typeof window !== 'undefined' &&
+        animateOnMount &&
+        hasSeriesEntries(effectiveOption) &&
+        !mountAnimationDoneRef.current &&
+        !mountAnimationActiveRef.current
+
+      if (canAnimateOnMount) {
+        mountAnimationActiveRef.current = true
+        const seedOption = createMountSeedOption(effectiveOption)
+        setChartOption(chart, seedOption, { notMerge: true, lazyUpdate: false })
+
+        const delayMs = Number.isFinite(animateOnMountDelayMs)
+          ? Math.max(0, Math.round(animateOnMountDelayMs))
+          : 16
+
+        mountAnimationTimerRef.current = window.setTimeout(() => {
+          mountAnimationTimerRef.current = null
+          mountAnimationActiveRef.current = false
+
+          const currentChart = chartRef.current
+          const currentOption = lastOptionRef.current
+          if (!currentChart || currentChart.isDisposed() || !currentOption) {
+            return
+          }
+
+          setChartOption(currentChart, currentOption, { notMerge: false, lazyUpdate: false })
+          mountAnimationDoneRef.current = true
+        }, delayMs)
+        return
+      }
+
+      if (mountAnimationActiveRef.current) {
+        return
+      }
+
+      if (hasSeriesEntries(effectiveOption)) {
+        mountAnimationDoneRef.current = true
+      }
+      setChartOption(chart, effectiveOption, { notMerge, lazyUpdate })
     }
-  }, [option, preset, notMerge, lazyUpdate, autoMode, resolvedTheme.mode])
+  }, [
+    option,
+    preset,
+    notMerge,
+    lazyUpdate,
+    autoMode,
+    resolvedTheme.mode,
+    animateOnMount,
+    animateOnMountDelayMs,
+  ])
 
   // Attach event handlers (and keep them updated)
   useEffect(() => {
