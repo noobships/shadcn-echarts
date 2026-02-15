@@ -36,6 +36,11 @@ The base `Chart` watches for mode changes (DOM class + media query). When the ef
 2. Calls `setTheme(nextTheme)`
 3. Re-applies the last option with `notMerge: true` so theme-derived defaults are recalculated
 
+Mode resolution priority is:
+1. `.dark` / `.light` class on `<html>`
+2. `data-theme` / `data-mode` / `data-color-scheme` on `<html>`
+3. `prefers-color-scheme`
+
 ## Advanced: registering themes yourself
 
 You can register themes manually (useful if you want to pre-register on app startup):

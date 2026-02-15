@@ -6,12 +6,14 @@ export default function HomePage() {
     <>
       <h1>shadcn-echarts</h1>
       <p className="lead">
-        Modern Apache ECharts wrappers styled for shadcn/ui design language with
-        automatic light and dark mode support.
+        Beautiful shadcn-style ECharts components.
       </p>
       <p>
-        Use it as an npm dependency, install components via shadcn registry, or
-        copy and own the component source in your app.
+        2D charts work out of the box. 3D/WebGL charts are supported with optional
+        {" "}
+        <code>echarts-gl</code> setup. Use it as an npm dependency, install
+        components via shadcn registry, or copy and own the component source in
+        your app.
       </p>
 
       <div className="button-row">
@@ -35,6 +37,28 @@ export default function HomePage() {
       <pre>
         <code>{`npx shadcn@latest add ${registryItemUrl("bar-chart")}`}</code>
       </pre>
+
+      <h2>Live demo</h2>
+      <p>
+        See the library in a real dashboard app:{" "}
+        <a
+          href="https://shadcn-echarts-demo.devstool.dev/dashboard"
+          target="_blank"
+          rel="noreferrer"
+        >
+          shadcn-echarts-demo.devstool.dev/dashboard
+        </a>
+      </p>
+      <p>
+        Source code:{" "}
+        <a
+          href="https://github.com/noobships/shadcn-echarts-demo"
+          target="_blank"
+          rel="noreferrer"
+        >
+          github.com/noobships/shadcn-echarts-demo
+        </a>
+      </p>
 
       <div className="panel">
         <strong>What this site provides</strong>

@@ -22,6 +22,12 @@ export default function ComponentsPage() {
       <p className="lead">
         Registry currently includes 36 chart components (2D + 3D/WebGL).
       </p>
+      <p>
+        2D charts are zero-setup. 3D/WebGL charts require
+        {" "}
+        <code>echarts-gl</code> and are currently early (not yet broadly
+        battle-tested).
+      </p>
 
       <h2>Install examples</h2>
       {componentExamples.map((name) => (
@@ -32,21 +38,27 @@ export default function ComponentsPage() {
 
       <h2>Interactive demo</h2>
       <p>
-        For broad example exploration, use the demo workspace in this repository:
+        For real-world usage, explore the live dashboard demo:
+      </p>
+      <pre>
+        <code>{`https://shadcn-echarts-demo.devstool.dev/dashboard`}</code>
+      </pre>
+      <p>
+        Demo repository:{" "}
+        <a
+          href="https://github.com/noobships/shadcn-echarts-demo"
+          target="_blank"
+          rel="noreferrer"
+        >
+          github.com/noobships/shadcn-echarts-demo
+        </a>
+      </p>
+      <p>
+        Local workspace demo in this repo is still available via:
       </p>
       <pre>
         <code>{`pnpm -C demo dev`}</code>
       </pre>
-      <p>
-        Demo source:{" "}
-        <a
-          href="https://github.com/noobships/shadcn-echarts/tree/main/demo"
-          target="_blank"
-          rel="noreferrer"
-        >
-          github.com/noobships/shadcn-echarts/tree/main/demo
-        </a>
-      </p>
     </>
   );
 }

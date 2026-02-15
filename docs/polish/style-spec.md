@@ -26,20 +26,23 @@ The library reads shadcn/ui CSS variables from the DOM and converts them to an E
 - **Series defaults (minimal, non-invasive)**
   - Defaults are applied as a **defaults-only merge** (never overwrite explicit user styling)
   - Line: `lineStyle.width = 2`, `showSymbol = false`, subtle area fills for area charts
-  - Bar: rounded corners, reasonable max width
-  - Pie/treemap/sunburst: separators match the container surface (`--card`)
+  - Bar: orientation/sign-aware **start-edge** rounding, reasonable max width
+  - Pie/treemap/sunburst: separators are subtle and token-driven (no harsh seams)
+  - Heatmap/calendar/gauge: no hard cell borders by default; cleaner band/cell polish
 
 - **Tooltip (high impact)**
   - HTML tooltip rendered as a shadcn popover:
     - `background: var(--popover)`
     - `border: 1px solid var(--border)`
     - `color: var(--popover-foreground)`
+  - Consistent shell across formatter paths (same corner radius, shadow, spacing)
   - Values are right-aligned and displayed with tabular numerals (mono stack)
 
 ## Interaction spec
 
 - **Theme switching is seamless**
   - Without passing a `theme` prop, toggling `.dark` on `<html>` updates charts in-place
+  - Explicit `.light` / `data-theme=\"light|dark\"` states are respected before system fallback
   - Implementation detail: `setTheme()` + re-apply the last option (so defaults are recomputed)
 
 - **Hover polish**

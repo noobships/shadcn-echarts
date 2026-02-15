@@ -44,6 +44,37 @@ export default function InstallPage() {
         <code>registry/default/</code> into your project and adapt as needed.
       </p>
 
+      <h2>3D/WebGL setup (optional)</h2>
+      <p>
+        2D charts work out of the box. For 3D/WebGL charts, install and load
+        <code>echarts-gl</code> once in your client entry.
+      </p>
+      <pre>
+        <code>{`pnpm add echarts-gl`}</code>
+      </pre>
+      <pre>
+        <code>{`'use client'
+import 'echarts-gl'`}</code>
+      </pre>
+
+      <h2>Reference implementation</h2>
+      <p>
+        See a full Next.js dashboard example using this library:
+      </p>
+      <pre>
+        <code>{`https://shadcn-echarts-demo.devstool.dev/dashboard`}</code>
+      </pre>
+      <p>
+        Source code:{" "}
+        <a
+          href="https://github.com/noobships/shadcn-echarts-demo"
+          target="_blank"
+          rel="noreferrer"
+        >
+          github.com/noobships/shadcn-echarts-demo
+        </a>
+      </p>
+
       <div className="panel">
         <strong>Smoke-test checklist</strong>
         <ul>

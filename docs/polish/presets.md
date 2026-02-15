@@ -56,11 +56,17 @@ export function RawEChartsExample() {
   - `lineStyle.width = 2`
   - `areaStyle.opacity` for area charts
 - `bar`:
-  - `itemStyle.borderRadius = 6`
+  - `itemStyle.borderRadius` defaults are orientation/sign-aware and round the start edge
   - `barMaxWidth = 48`
 - `pie`:
-  - `label.show = false`, `labelLine.show = false`
-  - `itemStyle.borderWidth = 1`
+  - `label.show = true`, `labelLine.show = true`
+  - subtle separator defaults (`itemStyle.borderWidth = 0.5`)
+- `heatmap`:
+  - removes hard cell borders by default (`itemStyle.borderWidth = 0`)
+- `gauge`:
+  - rounded progress ring + cleaner default dial geometry
+- `calendar`:
+  - removes hard cell borders by default
 
 ### Tooltip defaults
 
@@ -69,6 +75,7 @@ export function RawEChartsExample() {
 - `confine: true`
 - `formatter`: shadcn-like HTML popover that uses CSS variables:
   - `var(--popover)`, `var(--popover-foreground)`, `var(--border)`, `var(--muted-foreground)`
+  - consistent radius/shadow shell for both default and custom formatter paths
 
 ## Overriding behavior
 
