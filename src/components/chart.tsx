@@ -102,6 +102,7 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
   const chartRef = useRef<EChartsType | null>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
   const lastOptionRef = useRef<EChartsCoreOption | null>(null)
+  const lastAppliedThemeRef = useRef<string | null>(null)
 
   const [autoMode, setAutoMode] = useState<ThemeMode>(() => getThemeMode())
   const resolvedTheme = useMemo(() => normalizeTheme(theme, autoMode), [theme, autoMode])
@@ -171,6 +172,7 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
       width: typeof width === 'number' ? width : undefined,
       height: typeof height === 'number' ? height : undefined,
     })
+    lastAppliedThemeRef.current = resolvedTheme.themeName
 
     // Cleanup function
     return () => {
@@ -178,6 +180,7 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
         disposeChart(chartRef.current)
         chartRef.current = null
       }
+      lastAppliedThemeRef.current = null
     }
   }, [ssr, renderer]) // Only re-initialize if these change
 
@@ -219,18 +222,24 @@ export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRe
       return
     }
 
+    const nextThemeName = resolvedTheme.themeName
+    if (lastAppliedThemeRef.current === nextThemeName) {
+      return
+    }
+
     if (resolvedTheme.isShadcn && resolvedTheme.mode) {
       registerShadcnTheme(resolvedTheme.mode)
     }
 
     if (typeof (chart as any).setTheme === 'function') {
-      ;(chart as any).setTheme(resolvedTheme.themeName)
+      ;(chart as any).setTheme(nextThemeName)
     }
 
     const currentOption = lastOptionRef.current
     if (currentOption) {
       setChartOption(chart, currentOption, { notMerge: true, lazyUpdate: true })
     }
+    lastAppliedThemeRef.current = nextThemeName
   }, [resolvedTheme.themeName, resolvedTheme.isShadcn, resolvedTheme.mode])
 
   // Handle loading state

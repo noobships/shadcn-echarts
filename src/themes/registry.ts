@@ -11,13 +11,13 @@ import type { ThemeMode, ShadcnChartColors, EChartsTheme } from './types'
 
 const lastThemeSignatureByName: Record<string, string | undefined> = {}
 
-function themeSignature(colors: ShadcnChartColors): string {
+function themeSignature(colors: ShadcnChartColors, mode: ThemeMode): string {
   // Include font family because the theme pulls it from the page.
   const fontFamily =
     typeof window !== 'undefined' && typeof document !== 'undefined' && document.body
       ? getComputedStyle(document.body).fontFamily
       : ''
-  return JSON.stringify(colors) + `|font:${fontFamily}`
+  return JSON.stringify(colors) + `|mode:${mode}|font:${fontFamily}`
 }
 
 /**
@@ -35,7 +35,7 @@ export function registerShadcnTheme(mode: ThemeMode, element?: HTMLElement): voi
   const themeName = mode === 'dark' ? 'shadcn-dark' : 'shadcn-light'
 
   const colors = extractShadcnColors(targetElement)
-  const sig = themeSignature(colors)
+  const sig = themeSignature(colors, mode)
 
   if (lastThemeSignatureByName[themeName] === sig) {
     return
@@ -103,10 +103,24 @@ export function getThemeMode(element?: HTMLElement): ThemeMode {
   }
 
   const targetElement = element ?? document.documentElement
+  const classList = targetElement.classList
 
-  // Check for dark class on html element (highest priority)
-  if (targetElement.classList.contains('dark')) {
+  // Explicit class-based mode controls (highest priority).
+  if (classList.contains('dark')) {
     return 'dark'
+  }
+  if (classList.contains('light')) {
+    return 'light'
+  }
+
+  // Common explicit mode attributes.
+  const attrMode = (
+    targetElement.getAttribute('data-theme') ??
+    targetElement.getAttribute('data-mode') ??
+    targetElement.getAttribute('data-color-scheme')
+  )?.trim().toLowerCase()
+  if (attrMode === 'dark' || attrMode === 'light') {
+    return attrMode
   }
 
   // Check system preference as fallback

@@ -122,25 +122,35 @@ export function buildEChartsTheme(
     resolveColor(colors.chart5, { fallback: fallbackPalette[4] }),
   ]
 
-  const backgroundColor = resolveColor(colors.background, {
-    fallback: mode === 'dark' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+  const backgroundColor = resolveColor(colors.background ?? '', {
+    fallback: mode === 'dark' ? 'rgb(9, 9, 11)' : 'rgb(255, 255, 255)',
   })
-  const cardColor = resolveColor(colors.card ?? '', { fallback: backgroundColor })
-  const popoverColor = resolveColor(colors.popover ?? '', { fallback: cardColor })
+  const cardColor = resolveColor(colors.card ?? colors.background ?? '', {
+    fallback: mode === 'dark' ? 'rgb(24, 24, 27)' : backgroundColor,
+  })
+  const popoverColor = resolveColor(colors.popover ?? colors.card ?? colors.background ?? '', {
+    fallback: cardColor,
+  })
 
-  const textColor = resolveColor(colors.foreground, {
-    fallback: mode === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+  const textColor = resolveColor(colors.foreground ?? '', {
+    fallback: mode === 'dark' ? 'rgb(244, 244, 245)' : 'rgb(9, 9, 11)',
   })
-  const mutedTextColor = resolveColor(colors.mutedForeground, { fallback: textColor })
+  const mutedTextColor = resolveColor(colors.mutedForeground ?? colors.foreground ?? '', {
+    fallback: mode === 'dark' ? 'rgba(244, 244, 245, 0.70)' : 'rgba(9, 9, 11, 0.60)',
+  })
 
   // Preserve alpha (critical in dark mode for subtle separators)
   const borderColor = resolveColor(colors.border, {
     fallback: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)',
   })
 
-  const inputColor = resolveColor(colors.input ?? '', { fallback: borderColor })
-  const mutedColor = resolveColor(colors.muted, { fallback: borderColor })
-  const primaryColor = resolveColor(colors.primary, { fallback: chartColors[0] ?? fallbackPalette[0] })
+  const inputColor = resolveColor(colors.input ?? colors.border ?? '', { fallback: borderColor })
+  const mutedColor = resolveColor(colors.muted ?? '', {
+    fallback: mode === 'dark' ? 'rgba(244, 244, 245, 0.08)' : 'rgba(9, 9, 11, 0.04)',
+  })
+  const primaryColor = resolveColor(colors.primary ?? colors.chart1 ?? '', {
+    fallback: chartColors[0] ?? fallbackPalette[0],
+  })
   const popoverTextColor = resolveColor(colors.popoverForeground ?? '', { fallback: textColor })
 
   const fontFamily =
@@ -174,7 +184,7 @@ export function buildEChartsTheme(
     // Line chart series
     line: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -184,7 +194,7 @@ export function buildEChartsTheme(
     // Bar chart series
     bar: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -194,7 +204,7 @@ export function buildEChartsTheme(
     // Pie chart series
     pie: {
       itemStyle: {
-        borderColor: cardColor,
+        borderColor: borderColor,
       },
       label: {
         color: textColor,
@@ -204,7 +214,7 @@ export function buildEChartsTheme(
     // Scatter chart series
     scatter: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -214,7 +224,7 @@ export function buildEChartsTheme(
     // Radar chart series
     radar: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -224,7 +234,7 @@ export function buildEChartsTheme(
     // Boxplot chart series
     boxplot: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -234,7 +244,7 @@ export function buildEChartsTheme(
     // Parallel chart series
     parallel: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -244,7 +254,7 @@ export function buildEChartsTheme(
     // Sankey chart series
     sankey: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -254,7 +264,7 @@ export function buildEChartsTheme(
     // Funnel chart series
     funnel: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       label: {
         color: textColor,
@@ -265,12 +275,7 @@ export function buildEChartsTheme(
     gauge: {
       itemStyle: {
         color: primaryColor,
-        borderColor: borderColor,
-      },
-      axisLine: {
-        lineStyle: {
-          color: borderColor,
-        },
+        borderColor: 'transparent',
       },
       splitLine: {
         lineStyle: {
@@ -303,15 +308,15 @@ export function buildEChartsTheme(
       itemStyle: {
         color: chartColors[0],
         color0: chartColors[1],
-        borderColor: borderColor,
-        borderColor0: borderColor,
+        borderColor: 'transparent',
+        borderColor0: 'transparent',
       },
     },
 
     // Graph chart series
     graph: {
       itemStyle: {
-        borderColor: borderColor,
+        borderColor: 'transparent',
       },
       lineStyle: {
         color: borderColor,
