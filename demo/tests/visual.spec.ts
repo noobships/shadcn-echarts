@@ -8,6 +8,15 @@ type CategoryStats = {
   unsupported: number;
 };
 
+const POLISH_CRITICAL_IDS = {
+  barVertical: "bar/basic-bar",
+  barHorizontal: "bar/stacked-horizontal-bar",
+  pie: "pie/doughnut-chart",
+  heatmap: "heatmap/heatmap-cartesian",
+  calendar: "calendar/calendar-heatmap",
+  gauge: "gauge/progress-gauge",
+} as const;
+
 const CATEGORY_ENTRIES = Object.entries(
   EXAMPLE_METRICS.byCategory as Record<string, CategoryStats>,
 ).sort((a, b) =>
@@ -43,6 +52,21 @@ async function getRuntimeSetOptionCount(panel: import("@playwright/test").Locato
   const raw = await panel.getAttribute("data-runtime-setoption-count");
   const count = Number(raw ?? "0");
   return Number.isFinite(count) ? count : 0;
+}
+
+async function hoverChartSurface(panel: import("@playwright/test").Locator): Promise<void> {
+  const surface = panel.locator("canvas,svg").first();
+  await expect(surface).toBeVisible();
+  const box = await surface.boundingBox();
+  if (!box) {
+    throw new Error("Chart surface bounding box is unavailable.");
+  }
+  await surface.hover({
+    position: {
+      x: Math.round(Math.max(12, box.width * 0.55)),
+      y: Math.round(Math.max(12, box.height * 0.45)),
+    },
+  });
 }
 
 test.describe("demo parity and visuals", () => {
@@ -132,5 +156,33 @@ test.describe("demo parity and visuals", () => {
     await expect.poll(() => getRuntimeSetOptionCount(transitionPanel), { timeout: 15000 }).toBeGreaterThan(0);
     const transitionBefore = await getRuntimeSetOptionCount(transitionPanel);
     await expect.poll(() => getRuntimeSetOptionCount(transitionPanel), { timeout: 9000 }).toBeGreaterThan(transitionBefore);
+  });
+
+  test("polish-critical charts and tooltip states in light + dark", async ({ page }) => {
+    for (const mode of ["light", "dark"] as const) {
+      await page.goto("/");
+      await setTheme(page, mode);
+
+      for (const [key, id] of Object.entries(POLISH_CRITICAL_IDS)) {
+        await page.goto(`/examples/${encodeURIComponent(id)}`);
+        const panel = page.locator(`[data-example-chart-panel="${id}"]`);
+        await expect(panel).toBeVisible();
+        await page.waitForTimeout(700);
+
+        await expect(panel).toHaveScreenshot(`polish-${key}-${mode}.png`);
+      }
+
+      // Tooltip-specific screenshots for consistency checks.
+      for (const id of [POLISH_CRITICAL_IDS.barVertical, POLISH_CRITICAL_IDS.pie, POLISH_CRITICAL_IDS.heatmap]) {
+        await page.goto(`/examples/${encodeURIComponent(id)}`);
+        const panel = page.locator(`[data-example-chart-panel="${id}"]`);
+        await expect(panel).toBeVisible();
+        await page.waitForTimeout(700);
+        await hoverChartSurface(panel);
+        await page.waitForTimeout(200);
+        const safeId = id.replaceAll("/", "-");
+        await expect(panel).toHaveScreenshot(`polish-tooltip-${safeId}-${mode}.png`);
+      }
+    }
   });
 });
