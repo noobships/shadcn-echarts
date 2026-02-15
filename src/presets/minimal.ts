@@ -138,21 +138,23 @@ function tooltipItems(
   }));
 }
 
-function shadcnHtmlTooltipFormatter(params: any): string {
-  const header = escapeHtml(tooltipHeader(params));
-  const items = tooltipItems(params);
-
-  const containerStyle = [
+function tooltipContainerStyle(): string {
+  return [
     "min-width: 8rem",
     "border: 1px solid var(--border)",
     "background: var(--popover)",
     "color: var(--popover-foreground)",
-    "border-radius: 0.5rem",
+    "border-radius: 0.625rem",
     "padding: 0.375rem 0.625rem",
     "box-shadow: 0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.10)",
     "font-size: 0.75rem",
     "line-height: 1.2",
   ].join(";");
+}
+
+function shadcnHtmlTooltipFormatter(params: any): string {
+  const header = escapeHtml(tooltipHeader(params));
+  const items = tooltipItems(params);
 
   const headerHtml = header
     ? `<div style="font-weight: 500; margin-bottom: 0.375rem;">${header}</div>`
@@ -177,7 +179,7 @@ function shadcnHtmlTooltipFormatter(params: any): string {
     })
     .join("");
 
-  return `<div style="${containerStyle}">${headerHtml}<div style="display:grid; gap: 0.375rem;">${rows}</div></div>`;
+  return `<div style="${tooltipContainerStyle()}">${headerHtml}<div style="display:grid; gap: 0.375rem;">${rows}</div></div>`;
 }
 
 function isCartesianOption(option: AnyRecord): boolean {
@@ -203,7 +205,88 @@ function applyAxisDefaults(axis: any): any {
   return restoreArrayOrSingle(axis, next);
 }
 
-function applySeriesDefaults(series: any): any {
+function getAxisAtIndex(axis: any, axisIndex: unknown): AnyRecord | undefined {
+  const axes = asArray<any>(axis);
+  if (!axes || axes.length === 0) {
+    return undefined;
+  }
+  const index =
+    typeof axisIndex === "number" && Number.isInteger(axisIndex) && axisIndex >= 0
+      ? axisIndex
+      : 0;
+  return (axes[index] ?? axes[0]) as AnyRecord | undefined;
+}
+
+function getNumericValue(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    const last = value[value.length - 1];
+    if (typeof last === "number" && Number.isFinite(last)) {
+      return last;
+    }
+    return null;
+  }
+
+  if (isPlainObject(value)) {
+    return getNumericValue((value as AnyRecord).value);
+  }
+
+  return null;
+}
+
+function inferBarSign(series: AnyRecord): 1 | -1 {
+  const data = Array.isArray(series.data) ? series.data : [];
+  for (const item of data) {
+    const n = getNumericValue(item);
+    if (n == null || n === 0) {
+      continue;
+    }
+    return n < 0 ? -1 : 1;
+  }
+  return 1;
+}
+
+function inferBarOrientation(series: AnyRecord, option: AnyRecord): "horizontal" | "vertical" | "polar" {
+  if (series.coordinateSystem === "polar") {
+    return "polar";
+  }
+  if (series.layout === "horizontal") {
+    return "horizontal";
+  }
+  if (series.layout === "vertical") {
+    return "vertical";
+  }
+
+  const xAxis = getAxisAtIndex(option.xAxis, series.xAxisIndex);
+  const yAxis = getAxisAtIndex(option.yAxis, series.yAxisIndex);
+
+  if ((yAxis?.type ?? "") === "category" && (xAxis?.type ?? "") !== "category") {
+    return "horizontal";
+  }
+  return "vertical";
+}
+
+function defaultBarBorderRadius(series: AnyRecord, option: AnyRecord): number | [number, number, number, number] {
+  const orientation = inferBarOrientation(series, option);
+  if (orientation === "polar") {
+    return 6;
+  }
+
+  const sign = inferBarSign(series);
+  if (orientation === "horizontal") {
+    // ECharts radius order: [top-left, top-right, bottom-right, bottom-left]
+    // Round the start edge by default for horizontal bars.
+    return sign < 0 ? [0, 6, 6, 0] : [6, 0, 0, 6];
+  }
+
+  // Vertical bars: round the start edge (bottom for positive, top for negative).
+  return sign < 0 ? [6, 6, 0, 0] : [0, 0, 6, 6];
+}
+
+function applySeriesDefaults(series: any, option: AnyRecord): any {
   const list = asArray<any>(series);
   if (!list) return series;
 
@@ -228,7 +311,7 @@ function applySeriesDefaults(series: any): any {
     if (type === "bar") {
       return mergeDefaults(base, {
         barMaxWidth: 48,
-        itemStyle: { borderRadius: 6 },
+        itemStyle: { borderRadius: defaultBarBorderRadius(base, option) },
       });
     }
 
@@ -243,7 +326,7 @@ function applySeriesDefaults(series: any): any {
         avoidLabelOverlap: true,
         label: { show: true, fontSize: 12 },
         labelLine: { show: true },
-        itemStyle: { borderWidth: 1 },
+        itemStyle: { borderWidth: 0.5 },
       });
     }
 
@@ -257,17 +340,23 @@ function applySeriesDefaults(series: any): any {
 
     if (type === "heatmap") {
       return mergeDefaults(base, {
+        itemStyle: {
+          borderWidth: 0,
+          borderColor: "transparent",
+          borderRadius: 2,
+        },
+        label: { show: false },
         emphasis: { focus: "self" },
       });
     }
 
     if (type === "treemap") {
       return mergeDefaults(base, {
-        itemStyle: { borderWidth: 1, gapWidth: 2 },
+        itemStyle: { borderWidth: 0.5, gapWidth: 1 },
         label: { overflow: "truncate" },
         breadcrumb: { show: false },
         levels: [
-          { itemStyle: { borderWidth: 0, gapWidth: 2 } },
+          { itemStyle: { borderWidth: 0, gapWidth: 1 } },
           { itemStyle: { gapWidth: 1 } },
           { itemStyle: { gapWidth: 1 } },
         ],
@@ -276,7 +365,7 @@ function applySeriesDefaults(series: any): any {
 
     if (type === "sunburst") {
       return mergeDefaults(base, {
-        itemStyle: { borderWidth: 1 },
+        itemStyle: { borderWidth: 0.5 },
         label: { overflow: "truncate", fontSize: 11 },
         radius: ["15%", "90%"],
       });
@@ -289,16 +378,16 @@ function applySeriesDefaults(series: any): any {
         endAngle: -20,
         progress: { show: true, width: 12, roundCap: true },
         pointer: { show: false },
-        axisLine: { lineStyle: { width: 12 } },
+        axisLine: { roundCap: true, lineStyle: { width: 12 } },
         axisTick: { show: false },
         splitLine: { show: false },
         axisLabel: { show: false },
         title: { show: false },
         detail: {
           valueAnimation: true,
-          fontSize: 28,
+          fontSize: 26,
           fontWeight: 600,
-          offsetCenter: [0, "0%"],
+          offsetCenter: [0, "4%"],
         },
       });
     }
@@ -360,7 +449,7 @@ function applySeriesDefaults(series: any): any {
 
     if (type === "boxplot") {
       return mergeDefaults(base, {
-        itemStyle: { borderWidth: 1.5 },
+        itemStyle: { borderWidth: 1 },
       });
     }
 
@@ -425,11 +514,19 @@ export function applyMinimalPreset(
     tooltipDefaults.padding = 0;
     tooltipDefaults.borderWidth = 0;
     tooltipDefaults.backgroundColor = "transparent";
+    tooltipDefaults.extraCssText =
+      "padding:0;border:0;background:transparent;box-shadow:none;border-radius:0;";
     tooltipDefaults.formatter = shadcnHtmlTooltipFormatter;
   } else {
     // User has their own formatter — apply standard themed tooltip styling
     tooltipDefaults.padding = [6, 10];
     tooltipDefaults.borderWidth = 1;
+    tooltipDefaults.borderRadius = 10;
+    tooltipDefaults.backgroundColor = "var(--popover)";
+    tooltipDefaults.borderColor = "var(--border)";
+    tooltipDefaults.textStyle = { color: "var(--popover-foreground)" };
+    tooltipDefaults.extraCssText =
+      "border-radius:0.625rem;box-shadow:0 10px 15px -3px rgba(0,0,0,0.10),0 4px 6px -4px rgba(0,0,0,0.10);";
   }
 
   const out: AnyRecord = {
@@ -454,11 +551,16 @@ export function applyMinimalPreset(
               splitLine: { show: true },
             }),
           );
+          for (const axis of next) {
+            if (isPlainObject(axis) && axis.type === "category") {
+              axis.splitLine = mergeDefaults(axis.splitLine, { show: false });
+            }
+          }
           return restoreArrayOrSingle(y, next);
         })()
       : base.yAxis,
     tooltip: mergeDefaults(base.tooltip, tooltipDefaults),
-    series: applySeriesDefaults(base.series),
+    series: applySeriesDefaults(base.series, base),
   };
 
   // Radar component defaults (top-level `radar` config, not series)
@@ -473,8 +575,8 @@ export function applyMinimalPreset(
   // Calendar component defaults
   if (base.calendar !== undefined) {
     out.calendar = mergeDefaults(base.calendar, {
-      cellSize: ["auto", 16],
-      itemStyle: { borderWidth: 0.5 },
+      cellSize: ["auto", 14],
+      itemStyle: { borderWidth: 0, borderColor: "transparent" },
       yearLabel: { show: false },
       dayLabel: { firstDay: 1, fontSize: 10 },
       monthLabel: { fontSize: 10 },
