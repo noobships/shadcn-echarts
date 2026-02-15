@@ -26,7 +26,7 @@ The library reads shadcn/ui CSS variables from the DOM and converts them to an E
 - **Series defaults (minimal, non-invasive)**
   - Defaults are applied as a **defaults-only merge** (never overwrite explicit user styling)
   - Line: `lineStyle.width = 2`, `showSymbol = false`, subtle area fills for area charts
-  - Bar: orientation/sign-aware **start-edge** rounding, reasonable max width
+  - Bar: fully rounded bar corners (including stacked bars), reasonable max width
   - Pie/treemap/sunburst: separators are subtle and token-driven (no harsh seams)
   - Heatmap/calendar/gauge: no hard cell borders by default; cleaner band/cell polish
 

@@ -39,7 +39,7 @@ export function RawEChartsExample() {
 
 ### Cartesian defaults
 
-- `grid`: small consistent padding + `containLabel: true`
+- `grid`: small consistent padding + ECharts 6 outer-bounds containment defaults
 - `xAxis` / `yAxis`:
   - `axisLine.show = false`
   - `axisTick.show = false`
@@ -56,7 +56,7 @@ export function RawEChartsExample() {
   - `lineStyle.width = 2`
   - `areaStyle.opacity` for area charts
 - `bar`:
-  - `itemStyle.borderRadius` defaults are orientation/sign-aware and round the start edge
+  - `itemStyle.borderRadius` defaults to fully rounded corners for cleaner stacked/non-stacked bars
   - `barMaxWidth = 48`
 - `pie`:
   - `label.show = true`, `labelLine.show = true`
@@ -76,6 +76,15 @@ export function RawEChartsExample() {
 - `formatter`: shadcn-like HTML popover that uses CSS variables:
   - `var(--popover)`, `var(--popover-foreground)`, `var(--border)`, `var(--muted-foreground)`
   - consistent radius/shadow shell for both default and custom formatter paths
+
+### Mount animation defaults
+
+- `animateOnMount = true`
+- `animateOnMountDelayMs = 16`
+- Behavior:
+  - First pass applies an inert seed frame for series-based charts.
+  - Second pass applies the full option after a short delay to guarantee visible first-load animation.
+  - Set `animateOnMount={false}` to disable this behavior.
 
 ## Overriding behavior
 

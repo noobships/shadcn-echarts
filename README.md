@@ -88,6 +88,29 @@ export function MyChart() {
 }
 ```
 
+### First-load animation
+
+Charts now animate on initial mount by default:
+
+- `animateOnMount` (default `true`)
+- `animateOnMountDelayMs` (default `16`)
+
+Disable if you want raw immediate rendering:
+
+```tsx
+<BarChart option={option} animateOnMount={false} />
+```
+
+### Optional: resolve color tokens in custom options
+
+If you pass deeply customized option trees with CSS-token-like colors, you can pre-resolve them:
+
+```ts
+import { resolveOptionColorTokens } from "@devstool/shadcn-echarts/themes";
+
+const safeOption = resolveOptionColorTokens(option);
+```
+
 ## 2D vs 3D/WebGL Support
 
 - 2D charts work out of the box with `echarts`.

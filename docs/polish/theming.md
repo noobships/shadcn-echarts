@@ -41,6 +41,24 @@ Mode resolution priority is:
 2. `data-theme` / `data-mode` / `data-color-scheme` on `<html>`
 3. `prefers-color-scheme`
 
+## Opt-in option color token resolver
+
+For deeply customized chart options, you can pre-resolve color fields before passing
+options into a chart:
+
+```ts
+import { resolveOptionColorTokens } from '@devstool/shadcn-echarts/themes'
+
+const safeOption = resolveOptionColorTokens(option)
+```
+
+Notes:
+
+- This utility is opt-in (it is not applied automatically by `Chart`).
+- By default, it targets token-like color strings (`var(...)`, `oklch(...)`, etc.).
+- Use `resolveOptionColorTokens(option, { resolveNonTokenColors: true })` to force
+  broader color normalization.
+
 ## Advanced: registering themes yourself
 
 You can register themes manually (useful if you want to pre-register on app startup):
