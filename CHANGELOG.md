@@ -1,5 +1,11 @@
 # @devstool/shadcn-echarts
 
+## 0.2.0
+
+### Minor Changes
+
+- 84e44ec: Improve shadcn theme resolution and runtime theme application stability, and polish minimal preset defaults across key chart types for cleaner surfaces, tooltip consistency, and better light/dark visual parity.
+
 ## 0.1.2
 
 ### Patch Changes
