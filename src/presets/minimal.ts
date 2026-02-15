@@ -1,5 +1,6 @@
 import type { EChartsCoreOption } from "echarts/core";
 import type { ThemeMode } from "../themes/types";
+import { resolveColor } from "../themes/resolveColor";
 
 type AnyRecord = Record<string, any>;
 
@@ -40,6 +41,33 @@ function mergeDefaults<T>(value: T, defaults: any): T {
   }
 
   return out as T;
+}
+
+function withAlpha(color: string, alpha: number): string {
+  const match = color.match(/rgba?\(([^)]+)\)/i);
+  if (!match) {
+    return color;
+  }
+
+  const channels = match[1];
+  if (!channels) {
+    return color;
+  }
+  const parts = channels.split(",").map((part) => part.trim());
+  if (parts.length < 3) {
+    return color;
+  }
+
+  return `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${alpha})`;
+}
+
+function cssTokenColor(name: string, fallback: string): string {
+  if (typeof document === "undefined") {
+    return fallback;
+  }
+
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return resolveColor(value, { fallback });
 }
 
 function asArray<T>(value: T | T[] | undefined): T[] | undefined {
@@ -182,6 +210,23 @@ function shadcnHtmlTooltipFormatter(params: any): string {
   return `<div style="${tooltipContainerStyle()}">${headerHtml}<div style="display:grid; gap: 0.375rem;">${rows}</div></div>`;
 }
 
+function hasTooltipFormatting(tooltip: unknown): boolean {
+  if (!isPlainObject(tooltip)) {
+    return false;
+  }
+
+  return tooltip.formatter !== undefined || tooltip.valueFormatter !== undefined;
+}
+
+function hasSeriesTooltipFormatting(series: unknown): boolean {
+  const list = asArray(series as AnyRecord | AnyRecord[] | undefined);
+  if (!list) {
+    return false;
+  }
+
+  return list.some((entry) => isPlainObject(entry) && hasTooltipFormatting(entry.tooltip));
+}
+
 function isCartesianOption(option: AnyRecord): boolean {
   return (
     option.xAxis !== undefined ||
@@ -217,38 +262,6 @@ function getAxisAtIndex(axis: any, axisIndex: unknown): AnyRecord | undefined {
   return (axes[index] ?? axes[0]) as AnyRecord | undefined;
 }
 
-function getNumericValue(value: unknown): number | null {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return value;
-  }
-
-  if (Array.isArray(value)) {
-    const last = value[value.length - 1];
-    if (typeof last === "number" && Number.isFinite(last)) {
-      return last;
-    }
-    return null;
-  }
-
-  if (isPlainObject(value)) {
-    return getNumericValue((value as AnyRecord).value);
-  }
-
-  return null;
-}
-
-function inferBarSign(series: AnyRecord): 1 | -1 {
-  const data = Array.isArray(series.data) ? series.data : [];
-  for (const item of data) {
-    const n = getNumericValue(item);
-    if (n == null || n === 0) {
-      continue;
-    }
-    return n < 0 ? -1 : 1;
-  }
-  return 1;
-}
-
 function inferBarOrientation(series: AnyRecord, option: AnyRecord): "horizontal" | "vertical" | "polar" {
   if (series.coordinateSystem === "polar") {
     return "polar";
@@ -275,20 +288,27 @@ function defaultBarBorderRadius(series: AnyRecord, option: AnyRecord): number | 
     return 6;
   }
 
-  const sign = inferBarSign(series);
-  if (orientation === "horizontal") {
-    // ECharts radius order: [top-left, top-right, bottom-right, bottom-left]
-    // Round the start edge by default for horizontal bars.
-    return sign < 0 ? [0, 6, 6, 0] : [6, 0, 0, 6];
-  }
-
-  // Vertical bars: round the start edge (bottom for positive, top for negative).
-  return sign < 0 ? [6, 6, 0, 0] : [0, 0, 6, 6];
+  // Default to fully rounded bars so stacked segments keep rounded corners too.
+  return [6, 6, 6, 6];
 }
 
-function applySeriesDefaults(series: any, option: AnyRecord): any {
+type MinimalSeriesVisualDefaults = {
+  borderColor: string;
+  emphasisBorderColor: string;
+  boxplotFillColor: string;
+};
+
+function applySeriesDefaults(
+  series: any,
+  option: AnyRecord,
+  visualDefaults?: MinimalSeriesVisualDefaults,
+): any {
   const list = asArray<any>(series);
   if (!list) return series;
+
+  const borderColor = visualDefaults?.borderColor ?? "rgba(100, 116, 139, 0.2)";
+  const emphasisBorderColor = visualDefaults?.emphasisBorderColor ?? borderColor;
+  const boxplotFillColor = visualDefaults?.boxplotFillColor ?? "rgba(99, 102, 241, 0.24)";
 
   const next = list.map((s) => {
     const type = s?.type;
@@ -352,20 +372,25 @@ function applySeriesDefaults(series: any, option: AnyRecord): any {
 
     if (type === "treemap") {
       return mergeDefaults(base, {
-        itemStyle: { borderWidth: 0.5, gapWidth: 1 },
+        itemStyle: { borderWidth: 0.5, gapWidth: 1, borderColor },
+        emphasis: {
+          itemStyle: {
+            borderColor: emphasisBorderColor,
+          },
+        },
         label: { overflow: "truncate" },
         breadcrumb: { show: false },
         levels: [
-          { itemStyle: { borderWidth: 0, gapWidth: 1 } },
-          { itemStyle: { gapWidth: 1 } },
-          { itemStyle: { gapWidth: 1 } },
+          { itemStyle: { borderWidth: 0, gapWidth: 1, borderColor } },
+          { itemStyle: { gapWidth: 1, borderColor } },
+          { itemStyle: { gapWidth: 1, borderColor } },
         ],
       });
     }
 
     if (type === "sunburst") {
       return mergeDefaults(base, {
-        itemStyle: { borderWidth: 0.5 },
+        itemStyle: { borderWidth: 0.5, borderColor },
         label: { overflow: "truncate", fontSize: 11 },
         radius: ["15%", "90%"],
       });
@@ -449,7 +474,11 @@ function applySeriesDefaults(series: any, option: AnyRecord): any {
 
     if (type === "boxplot") {
       return mergeDefaults(base, {
-        itemStyle: { borderWidth: 1 },
+        itemStyle: {
+          borderWidth: 1,
+          borderColor: emphasisBorderColor,
+          color: boxplotFillColor,
+        },
       });
     }
 
@@ -496,10 +525,33 @@ export function applyMinimalPreset(
   const base = option as AnyRecord;
 
   const cartesian = isCartesianOption(base);
+  const borderColor = cssTokenColor(
+    "--border",
+    ctx.mode === "dark" ? "rgba(148, 163, 184, 0.28)" : "rgba(100, 116, 139, 0.2)",
+  );
+  const emphasisBorderColor = cssTokenColor(
+    "--primary",
+    ctx.mode === "dark" ? "rgb(129, 140, 248)" : "rgb(99, 102, 241)",
+  );
+  const chartColor = cssTokenColor(
+    "--chart-1",
+    ctx.mode === "dark" ? "rgb(129, 140, 248)" : "rgb(99, 102, 241)",
+  );
+  const boxplotFillColor = withAlpha(chartColor, ctx.mode === "dark" ? 0.42 : 0.24);
+  const tooltipBackgroundColor = cssTokenColor(
+    "--popover",
+    ctx.mode === "dark" ? "rgb(15, 23, 42)" : "rgb(255, 255, 255)",
+  );
+  const tooltipBorderColor = borderColor;
+  const tooltipTextColor = cssTokenColor(
+    "--popover-foreground",
+    ctx.mode === "dark" ? "rgb(241, 245, 249)" : "rgb(15, 23, 42)",
+  );
+  const tooltipBase = base.tooltip === null ? undefined : base.tooltip;
 
-  // Check if user has provided their own tooltip formatter
-  const userHasFormatter =
-    isPlainObject(base.tooltip) && base.tooltip.formatter !== undefined;
+  // Respect user tooltip formatting at top-level and series-level.
+  const userHasTooltipFormatting =
+    hasTooltipFormatting(tooltipBase) || hasSeriesTooltipFormatting(base.series);
 
   const tooltipDefaults: AnyRecord = {
     renderMode: "html",
@@ -508,7 +560,7 @@ export function applyMinimalPreset(
     ...(cartesian ? { trigger: "axis" } : { trigger: "item" }),
   };
 
-  if (!userHasFormatter) {
+  if (!userHasTooltipFormatting) {
     // Use our custom HTML popover formatter with transparent bg
     // (the formatter renders its own styled container)
     tooltipDefaults.padding = 0;
@@ -522,9 +574,9 @@ export function applyMinimalPreset(
     tooltipDefaults.padding = [6, 10];
     tooltipDefaults.borderWidth = 1;
     tooltipDefaults.borderRadius = 10;
-    tooltipDefaults.backgroundColor = "var(--popover)";
-    tooltipDefaults.borderColor = "var(--border)";
-    tooltipDefaults.textStyle = { color: "var(--popover-foreground)" };
+    tooltipDefaults.backgroundColor = tooltipBackgroundColor;
+    tooltipDefaults.borderColor = tooltipBorderColor;
+    tooltipDefaults.textStyle = { color: tooltipTextColor };
     tooltipDefaults.extraCssText =
       "border-radius:0.625rem;box-shadow:0 10px 15px -3px rgba(0,0,0,0.10),0 4px 6px -4px rgba(0,0,0,0.10);";
   }
@@ -537,7 +589,8 @@ export function applyMinimalPreset(
           right: 12,
           top: 8,
           bottom: 12,
-          containLabel: true,
+          outerBoundsMode: "same",
+          outerBoundsContain: "axisLabel",
         })
       : base.grid,
     xAxis: cartesian ? applyAxisDefaults(base.xAxis) : base.xAxis,
@@ -559,8 +612,12 @@ export function applyMinimalPreset(
           return restoreArrayOrSingle(y, next);
         })()
       : base.yAxis,
-    tooltip: mergeDefaults(base.tooltip, tooltipDefaults),
-    series: applySeriesDefaults(base.series, base),
+    tooltip: mergeDefaults(tooltipBase, tooltipDefaults),
+    series: applySeriesDefaults(base.series, base, {
+      borderColor,
+      emphasisBorderColor,
+      boxplotFillColor,
+    }),
   };
 
   // Radar component defaults (top-level `radar` config, not series)
@@ -582,9 +639,6 @@ export function applyMinimalPreset(
       monthLabel: { fontSize: 10 },
     });
   }
-
-  // Future: use ctx.mode for mode-specific tweaks.
-  void ctx;
 
   return out as EChartsCoreOption;
 }

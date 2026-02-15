@@ -50,6 +50,24 @@ export function getCSSVariable(
   return getComputedStyle(targetElement).getPropertyValue(varName).trim()
 }
 
+function withAlpha(color: string, alpha: number): string {
+  const match = color.match(/rgba?\(([^)]+)\)/i)
+  if (!match) {
+    return color
+  }
+
+  const channels = match[1]
+  if (!channels) {
+    return color
+  }
+  const parts = channels.split(',').map((part) => part.trim())
+  if (parts.length < 3) {
+    return color
+  }
+
+  return `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${alpha})`
+}
+
 /**
  * Extract shadcn/ui chart colors from CSS variables
  * 
@@ -152,6 +170,11 @@ export function buildEChartsTheme(
     fallback: chartColors[0] ?? fallbackPalette[0],
   })
   const popoverTextColor = resolveColor(colors.popoverForeground ?? '', { fallback: textColor })
+  const primaryPaletteColor = chartColors[0] ?? fallbackPalette[0] ?? 'rgb(59, 130, 246)'
+  const boxplotFillColor = withAlpha(
+    primaryPaletteColor,
+    mode === 'dark' ? 0.42 : 0.24,
+  )
 
   const fontFamily =
     typeof window !== 'undefined' && typeof document !== 'undefined' && document.body
@@ -211,6 +234,34 @@ export function buildEChartsTheme(
       },
     },
 
+    // Treemap chart series
+    treemap: {
+      itemStyle: {
+        borderColor: borderColor,
+        borderWidth: 1,
+        gapWidth: 1,
+      },
+      emphasis: {
+        itemStyle: {
+          borderColor: primaryColor,
+        },
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
+    // Sunburst chart series
+    sunburst: {
+      itemStyle: {
+        borderColor: borderColor,
+        borderWidth: 1,
+      },
+      label: {
+        color: textColor,
+      },
+    },
+
     // Scatter chart series
     scatter: {
       itemStyle: {
@@ -234,7 +285,9 @@ export function buildEChartsTheme(
     // Boxplot chart series
     boxplot: {
       itemStyle: {
-        borderColor: 'transparent',
+        color: boxplotFillColor,
+        borderColor: primaryColor,
+        borderWidth: 1.2,
       },
       label: {
         color: textColor,

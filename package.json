@@ -33,6 +33,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm run build",
+    "test:core": "pnpm run build && node --test tests/core-behavior.test.mjs",
     "type-check": "tsc --noEmit",
     "lint": "oxlint src registry scripts demo/src demo/tests apps/www",
     "lint:fix": "oxlint --fix src registry scripts demo/src demo/tests apps/www",

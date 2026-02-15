@@ -113,7 +113,33 @@ export interface EChartsTheme {
   }
   boxplot?: {
     itemStyle?: {
+      color?: string
       borderColor?: string
+      borderWidth?: number
+    }
+    label?: {
+      color?: string
+    }
+  }
+  treemap?: {
+    itemStyle?: {
+      borderColor?: string
+      borderWidth?: number
+      gapWidth?: number
+    }
+    label?: {
+      color?: string
+    }
+    emphasis?: {
+      itemStyle?: {
+        borderColor?: string
+      }
+    }
+  }
+  sunburst?: {
+    itemStyle?: {
+      borderColor?: string
+      borderWidth?: number
     }
     label?: {
       color?: string

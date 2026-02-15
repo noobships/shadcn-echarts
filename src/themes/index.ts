@@ -8,4 +8,5 @@
 export * from './builder'
 export * from './registry'
 export * from './resolveColor'
+export * from './resolveOptionColorTokens'
 export * from './types'

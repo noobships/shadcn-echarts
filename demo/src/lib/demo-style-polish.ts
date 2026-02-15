@@ -174,11 +174,12 @@ function polishGrid(gridValue: unknown): unknown {
   const gridList = toArray(gridValue);
   const next = gridList.map((grid) =>
     mergeDefaults(grid, {
-      containLabel: true,
       left: "6%",
       right: "6%",
       top: 28,
       bottom: 28,
+      outerBoundsMode: "same",
+      outerBoundsContain: "axisLabel",
     }),
   );
 

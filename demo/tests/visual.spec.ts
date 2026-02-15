@@ -12,7 +12,10 @@ const POLISH_CRITICAL_IDS = {
   barVertical: "bar/basic-bar",
   barHorizontal: "bar/stacked-horizontal-bar",
   pie: "pie/doughnut-chart",
+  boxplot: "boxplot/multiple-categories",
   heatmap: "heatmap/heatmap-cartesian",
+  sunburst: "sunburst/basic-sunburst",
+  treemap: "treemap/basic-treemap",
   calendar: "calendar/calendar-heatmap",
   gauge: "gauge/progress-gauge",
 } as const;
