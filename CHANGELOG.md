@@ -1,5 +1,13 @@
 # @devstool/shadcn-echarts
 
+## 0.3.0
+
+### Minor Changes
+
+- 9253263: Ship first-load chart animation controls and improve default visual parity.
+
+  This release adds `animateOnMount` and `animateOnMountDelayMs`, improves minimal preset behavior for tooltip precedence and ECharts 6 grid containment, expands sunburst/treemap/boxplot defaults for better light-dark contrast, and adds an opt-in `resolveOptionColorTokens()` utility for token-like custom option colors.
+
 ## 0.2.0
 
 ### Minor Changes
