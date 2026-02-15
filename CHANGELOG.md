@@ -1,15 +1,5 @@
 # @devstool/shadcn-echarts
 
-## Unreleased
-
-### Improvements
-
-- Add mount animation controls in `Chart` via `animateOnMount` and `animateOnMountDelayMs` (default enabled) for more consistent first-load entrance animation.
-- Improve minimal preset tooltip precedence to avoid injecting a global formatter when chart options already define tooltip formatting semantics.
-- Modernize preset grid defaults for ECharts 6 by using outer-bounds containment defaults instead of relying on `grid.containLabel`.
-- Expand theme and preset defaults for `sunburst`, `treemap`, and `boxplot` to improve dark/light border and contrast behavior.
-- Add opt-in `resolveOptionColorTokens()` utility for resolving token-like color values in custom option trees.
-
 ## 0.2.0
 
 ### Minor Changes
