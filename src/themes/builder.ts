@@ -523,6 +523,21 @@ export function buildEChartsTheme(
       },
     },
 
+    // Axis pointer component (crosshair labels on axes)
+    axisPointer: {
+      label: {
+        backgroundColor: mutedColor,
+        color: textColor,
+        borderColor: borderColor,
+      },
+      lineStyle: {
+        color: borderColor,
+      },
+      crossStyle: {
+        color: borderColor,
+      },
+    },
+
     // Timeline component
     timeline: {
       lineStyle: {

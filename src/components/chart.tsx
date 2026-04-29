@@ -15,6 +15,7 @@ import type { BaseChartProps } from '../core/types'
 import type { ThemeMode } from '../themes/types'
 import { getThemeMode, registerShadcnTheme } from '../themes/registry'
 import { applyMinimalPreset } from '../presets/minimal'
+import { useChartDefaults } from './chart-provider'
 
 type AnyRecord = Record<string, unknown>
 
@@ -42,7 +43,15 @@ function hasSeriesEntries(option: EChartsCoreOption): boolean {
   return series.length > 0
 }
 
-function createMountSeedOption(option: EChartsCoreOption): EChartsCoreOption {
+/**
+ * Build an inert "seed" option for the mount animation first frame.
+ *
+ * Preserves series structure (type, name) but empties data so the
+ * second-frame merge triggers a visible entrance animation.
+ *
+ * Exported for testing — not intended as a public API.
+ */
+export function createMountSeedOption(option: EChartsCoreOption): EChartsCoreOption {
   const optionRecord = option as AnyRecord
   const seriesInput = optionRecord.series as AnyRecord | AnyRecord[] | undefined
   const seriesList = asArray(seriesInput)
@@ -136,27 +145,29 @@ export interface ChartProps extends BaseChartProps {
  * ```
  */
 export const Chart: ForwardRefExoticComponent<ChartProps & RefAttributes<ChartRef>> = forwardRef<ChartRef, ChartProps>(function Chart(
-  {
+  props,
+  ref
+) {
+  const defaults = useChartDefaults()
+  const {
     option,
     width,
     height,
-    theme,
-    preset = true,
+    theme = defaults.theme,
+    preset = defaults.preset ?? true,
     ssr = false,
-    renderer = 'canvas',
+    renderer = defaults.renderer ?? 'canvas',
     loading = false,
     loadingOption,
     onEvents,
     style,
     className,
-    autoResize = true,
+    autoResize = defaults.autoResize ?? true,
     notMerge = false,
     lazyUpdate = false,
-    animateOnMount = true,
-    animateOnMountDelayMs = 16,
-  },
-  ref
-) {
+    animateOnMount = defaults.animateOnMount ?? true,
+    animateOnMountDelayMs = defaults.animateOnMountDelayMs ?? 16,
+  } = props
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<EChartsType | null>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)

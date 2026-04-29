@@ -734,9 +734,7 @@ export async function evaluateExampleOption(
   }
 
   const scriptSource = await scriptResponse.text();
-  const echartsProxy = Object.assign(Object.create(echarts), {
-    init: () => mockChart,
-  }) as typeof echarts;
+  const echartsProxy = { ...echarts, init: () => mockChart } as typeof echarts;
   const documentStub = createDocumentShim();
   const windowStub: Record<string, unknown> = {
     addEventListener: () => undefined,
@@ -1070,9 +1068,7 @@ export async function executeExampleRuntime(
       },
     }) as unknown as EChartsType;
 
-    const echartsProxy = Object.assign(Object.create(echarts), {
-      init: () => chartProxy,
-    }) as typeof echarts;
+    const echartsProxy = { ...echarts, init: () => chartProxy } as typeof echarts;
     const documentStub = createRuntimeDocumentShim(options.container, trackedListeners);
     const windowStub = createRuntimeWindowShim(
       size,

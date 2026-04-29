@@ -363,6 +363,19 @@ export interface EChartsTheme {
       color?: string
     }
   }
+  axisPointer?: {
+    label?: {
+      backgroundColor?: string
+      color?: string
+      borderColor?: string
+    }
+    lineStyle?: {
+      color?: string
+    }
+    crossStyle?: {
+      color?: string
+    }
+  }
   timeline?: {
     lineStyle?: {
       color?: string
